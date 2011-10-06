@@ -45,8 +45,12 @@ namespace ninge {
     virtual QString pluginVersion() = 0;
     // 获取插件详情
     virtual QString pluginDetail() = 0;
-    // 根据name获取一个widget, 如果当前插件不提供可视化控件或者当前名字无对应对象则应返回一个空指针
-    virtual QWidget* pluginWidget(const QString &name = QString()) = 0;
+    // 获取插件的设置界面, 如果插件没有可视化配置界面，则应该返回一个空指针
+    virtual QWidget* pluginSettingWidget() = 0;
+    // 获取插件的主界面，如果插件没有可视化主界面，则应该返回一个空指针
+    virtual QWidget* pluginMainWidget() = 0;
+    // 根据name获取一个插件的内含QObject对象, 如果没有当前名字的对象，则应返回一个空指针
+    virtual QObject* pluginInnerObject(const QString &name = QString()) = 0;
     // 执行一条命令, 接受一个参数列表, 返回一个返回值
     virtual QVariant exec(const QString &command = QString(), const QList<QVariant> &arguments = QList<QVariant>()) = 0;
     // 插件在退出时应该做的额外操作, 会被插件管理器自动调用

@@ -1,7 +1,9 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    core
+    core \
+    ninge
+
 
 
 

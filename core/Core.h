@@ -22,9 +22,13 @@
 
 #include "core_global.h"
 
+#include "PluginManager.h"
+
 class CORESHARED_EXPORT Core {
 public:
     Core();
+
+    static ninge::PluginManager * getPluginManager() { return ninge::PluginManager::instance(); }
 };
 
 #endif // CORE_H
