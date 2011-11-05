@@ -185,7 +185,7 @@ void Player::playerStateChanged(Phonon::State newState, Phonon::State oldState)
   }
   else if (newState == Phonon::ErrorState && oldState == Phonon::LoadingState)
   {
-    ui->state->setText(tr("Load error"));
+    ui->state->setText(tr("Loading error"));
     QMessageBox::critical(NULL, tr("Load error"), ui->videoPlayer->mediaObject()->errorString());
   }
   else if (newState == Phonon::ErrorState)
