@@ -18,13 +18,31 @@
  *************************************************************************/
 
 #include <QtGui/QApplication>
+#include <QtCore/QTranslator>
+#include <QtCore/QLocale>
+
 #include "NingeMain.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    NingeMain w;
-    w.show();
+  // 设置程序样式
+  QApplication::setStyle("cleanlooks");
 
-    return a.exec();
+  QApplication a(argc, argv);
+  a.setApplicationName("ninge");
+
+  // 翻译Qt库
+  QTranslator qtTranslator;
+  qtTranslator.load("qt_" + QLocale::system().name(), ":/res/translations");
+  a.installTranslator(&qtTranslator);
+
+  // 翻译程序
+  QTranslator myappTranslator;
+  myappTranslator.load("ninge_" + QLocale::system().name(), ":/res/translations");
+  a.installTranslator(&myappTranslator);
+
+  NingeMain w;
+  w.show();
+
+  return a.exec();
 }

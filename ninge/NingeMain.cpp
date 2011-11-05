@@ -20,6 +20,8 @@
 #include "NingeMain.h"
 #include "ui_NingeMain.h"
 
+#include "core/CorePluginInterface.h"
+
 NingeMain::NingeMain(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::NingeMain)
@@ -27,6 +29,14 @@ NingeMain::NingeMain(QWidget *parent) :
   ui->setupUi(this);
 
   m_pPluginManager = Core::getPluginManager();
+  m_pPluginManager->loadPlugins();
+
+  ninge::CorePluginInterface *_plugin = m_pPluginManager->getPlugin("ningePlayer");
+  setCentralWidget(_plugin->pluginMainWidget());
+  QList<QVariant> _args;
+  _args << QString::fromLocal8Bit("/home/ninsun/音乐/[kazamis][光影]/[kazamis][光影].mp3")
+        << QString::fromLocal8Bit("/home/ninsun/音乐/[kazamis][光影]/[kazamis][光影]MV.mp4");
+  _plugin->exec("play", _args);
 }
 
 NingeMain::~NingeMain()

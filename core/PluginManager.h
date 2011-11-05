@@ -20,9 +20,10 @@
 #ifndef PLUGINMANAGER_H
 #define PLUGINMANAGER_H
 
-#include <QObject>
-#include <QObject>
-#include <QHash>
+#include <QtCore/QObject>
+#include <QtCore/QHash>
+#include <QtCore/QVariant>
+#include <QtCore/QStringList>
 
 namespace ninge {
 
@@ -40,7 +41,7 @@ namespace ninge {
     static PluginManager* instance();
 
   public:
-    // 载入指定目录下的插件(默认加载plugins目录)
+    // 载入指定目录下的插件(默认加载ningePlugins目录)
     void loadPlugins();
     // 卸载全部插件
     void unloadPlugins();
@@ -49,14 +50,17 @@ namespace ninge {
 
   public slots:
     // 向插件发送一条命令
-    void sendCommand(const QString &plugin, const QString &command, const QList<QVariant> &arguments);
+    QVariant sendCommand(const QString &plugin, const QString &command, const QList<QVariant> &arguments);
 
   private:
     // 插件Hash表
     QHash<QString, CorePluginInterface*> m_plugins;
     // 静态管理器对象指针
     static PluginManager *m_pInstance;
+    // 非法插件名称列表
+    QStringList m_illegalPluginNameList;
   };
+
 }
 
 #endif // PLUGINMANAGER_H

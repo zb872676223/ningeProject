@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT    += core gui
+QT    += core gui xml
 
 TARGET = core
 TEMPLATE = lib
@@ -12,12 +12,14 @@ TEMPLATE = lib
 DEFINES += CORE_LIBRARY
 
 SOURCES += Core.cpp \
-    PluginManager.cpp
+    PluginManager.cpp \
+    NMLReader.cpp
 
 HEADERS += Core.h\
         core_global.h \
     PluginManager.h \
-    CorePluginInterface.h
+    CorePluginInterface.h \
+    NMLReader.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN
@@ -82,3 +84,5 @@ CONFIG(debug, debug|release) {
   OBJECTS_DIR = ./release/obj   #将生成的对象文件放在专门的obj文件夹下
   MOC_DIR = ./release/moc       #将QT自动生成的对象放在moc文件夹下
 }
+
+

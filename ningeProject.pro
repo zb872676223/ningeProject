@@ -2,7 +2,9 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     core \
-    ninge
+    ninge \
+    ningePlayer
+
 
 
 
