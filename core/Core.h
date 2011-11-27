@@ -23,12 +23,15 @@
 #include "core_global.h"
 
 #include "PluginManager.h"
+#include "NMLReader.h"
 
-class CORESHARED_EXPORT Core {
+class CORESHARED_EXPORT Core
+{
 public:
     Core();
 
     static ninge::PluginManager * getPluginManager() { return ninge::PluginManager::instance(); }
+    static ninge::NMLReader * getNMLReader() { return ninge::NMLReader::instance(); }
 };
 
 #endif // CORE_H

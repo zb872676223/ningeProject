@@ -24,7 +24,8 @@
 
 #include "core/Core.h"
 
-namespace Ui {
+namespace Ui
+{
     class NingeMain;
 }
 

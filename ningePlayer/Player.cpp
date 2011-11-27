@@ -24,6 +24,8 @@
 #include <phonon/MediaSource>
 
 #include <QtGui/QMessageBox>
+#include <QtGui/QDesktopWidget>
+#include <QtCore/QTime>
 
 Player::Player(QWidget *parent) :
     QWidget(parent),
@@ -47,6 +49,15 @@ Player::Player(QWidget *parent) :
             this, SLOT(tick(qint64)));
     connect(m_pMediaObject, SIGNAL(totalTimeChanged(qint64)),
             this, SLOT(totalTimeChanged(qint64)));
+
+    m_iconPlay = style()->standardIcon(QStyle::SP_MediaPlay);
+    m_iconPause = style()->standardIcon(QStyle::SP_MediaPause);
+    m_iconStop = style()->standardIcon(QStyle::SP_MediaStop);
+    m_iconPrev = style()->standardIcon(QStyle::SP_MediaSkipBackward);
+    m_iconNext = style()->standardIcon(QStyle::SP_MediaSkipForward);
+
+    ui->play->setIcon(m_iconPlay);
+    ui->stop->setIcon(m_iconStop);
 }
 
 Player::~Player()
@@ -153,7 +164,7 @@ void Player::hasVideoChanged(bool changed)
 
 void Player::playerStateChanged(Phonon::State newState, Phonon::State oldState)
 {
-  ui->play->setIcon(QIcon(":/ningePlayer/resource/image/media-playback-start.svg"));
+  ui->play->setIcon(m_iconPlay);
 
   // 单状态判断
   if (newState == Phonon::LoadingState)
@@ -166,8 +177,13 @@ void Player::playerStateChanged(Phonon::State newState, Phonon::State oldState)
   }
   else if (newState == Phonon::PlayingState)
   {
+    if(oldState == Phonon::LoadingState)
+    {
+      qApp->processEvents();
+      resize(sizeHint());
+    }
     ui->state->setText(tr("Playing..."));
-    ui->play->setIcon(QIcon(":/ningePlayer/resource/image/media-playback-pause.svg"));
+    ui->play->setIcon(m_iconPause);
   }
   else if (newState == Phonon::BufferingState)
   {
@@ -202,12 +218,29 @@ void Player::finished()
 
 void Player::tick(qint64 time)
 {
-  QString _now = QString("%1:%2 / %3:%4")
-      .arg(time/60000, 0, 'f', 0, '0')
-      .arg(time%60000/1000, 2, 'f', 0, '0')
-      .arg(m_iTotalTime/60000, 0, 'f', 0, '0')
-      .arg(m_iTotalTime%60000/1000, 2, 'f', 0, '0');
-  ui->time->setText(_now);
+  QString _timeString;
+  if (time || m_iTotalTime)
+  {
+    int _sec = time/1000;
+    int _min = _sec/60;
+    int _hour = _min/60;
+    int _msec = time;
+
+    QTime _playTime(_hour%60, _min%60, _sec%60, _msec%1000);
+    _sec = m_iTotalTime / 1000;
+    _min = _sec / 60;
+    _hour = _min / 60;
+    _msec = m_iTotalTime;
+
+    QTime _totalTime(_hour%60, _min%60, _sec%60, _msec%1000);
+    QString _timeFormat = "m:ss";
+    if (_hour > 0)
+      _timeFormat = "h:mm:ss";
+    _timeString = _playTime.toString(_timeFormat);
+    if (m_iTotalTime)
+      _timeString += " / " + _totalTime.toString(_timeFormat);
+  }
+  ui->time->setText(_timeString);
 }
 
 void Player::totalTimeChanged(qint64 newTotalTime)

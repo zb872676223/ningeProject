@@ -24,9 +24,11 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
-namespace ninge {
+#include "core_global.h"
 
-  class NMLReader : public QObject
+namespace ninge
+{
+  class CORESHARED_EXPORT NMLReader : public QObject
   {
     Q_OBJECT
 

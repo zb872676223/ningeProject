@@ -33,9 +33,9 @@ NingeMain::NingeMain(QWidget *parent) :
 
   ninge::CorePluginInterface *_plugin = m_pPluginManager->getPlugin("ningePlayer");
   setCentralWidget(_plugin->pluginMainWidget());
+//  _plugin->pluginMainWidget()->show();
   QList<QVariant> _args;
-  _args << QString::fromLocal8Bit("/home/ninsun/音乐/[kazamis][光影]/[kazamis][光影].mp3")
-        << QString::fromLocal8Bit("/home/ninsun/音乐/[kazamis][光影]/[kazamis][光影]MV.mp4");
+  _args << QString::fromLocal8Bit("/home/ninsun/音乐/[kazamis][光影]/[kazamis][光影]MV.mp4");
   _plugin->exec("play", _args);
 }
 

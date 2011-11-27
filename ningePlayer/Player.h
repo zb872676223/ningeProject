@@ -21,6 +21,7 @@
 #define PLAYER_H
 
 #include <QtGui/QWidget>
+#include <QtGui/QIcon>
 #include <QtCore/QVariant>
 #include <phonon/Phonon>
 
@@ -76,7 +77,13 @@ private:
   Phonon::MediaObject *m_pMediaObject;
   Phonon::AudioOutput *m_pAudioOutput;
 
-  int m_iTotalTime;
+  qint64 m_iTotalTime;
+
+  QIcon m_iconPlay;
+  QIcon m_iconPause;
+  QIcon m_iconStop;
+  QIcon m_iconPrev;
+  QIcon m_iconNext;
 };
 
 #endif // PLAYER_H

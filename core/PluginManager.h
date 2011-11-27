@@ -25,11 +25,13 @@
 #include <QtCore/QVariant>
 #include <QtCore/QStringList>
 
-namespace ninge {
+#include "core_global.h"
 
+namespace ninge
+{
   class CorePluginInterface;
 
-  class PluginManager : public QObject  {
+  class CORESHARED_EXPORT PluginManager : public QObject  {
     Q_OBJECT
 
     // 屏蔽公共构造函数

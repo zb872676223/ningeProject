@@ -1,8 +1,5 @@
 <RCC>
     <qresource prefix="/ningePlayer">
-        <file>resource/image/media-playback-pause.svg</file>
-        <file>resource/image/media-playback-start.svg</file>
-        <file>resource/image/media-playback-stop.svg</file>
         <file>resource/image/ninge.png</file>
     </qresource>
 </RCC>

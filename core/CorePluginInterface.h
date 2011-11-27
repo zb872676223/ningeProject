@@ -26,8 +26,8 @@
 
 class QWidget;
 
-namespace ninge {
-
+namespace ninge
+{
   class CorePluginInterface : public QObject
   {
     Q_OBJECT
