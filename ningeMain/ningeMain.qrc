@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/ninge">
+    <qresource prefix="/ningeMain">
         <file>resource/image/ninge.png</file>
     </qresource>
 </RCC>

@@ -1,27 +1,46 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2011-10-03T17:08:53
+# Project created by QtCreator 2011-11-28T10:34:19
 #
 #-------------------------------------------------
 
-QT       += core gui
+TARGET = ningeMain
+TEMPLATE = lib
 
-TARGET = ninge
-TEMPLATE = app
+DEFINES += NINGEMAIN_LIBRARY
 
+SOURCES += NingeMain.cpp \
+    Main.cpp
 
-SOURCES += main.cpp
+HEADERS += NingeMain.h\
+        ningeMain_global.h \
+    Main.h \
+    ../core/CorePluginInterface.h
 
-HEADERS  +=
+symbian {
+    MMP_RULES += EXPORTUNFROZEN
+    TARGET.UID3 = 0xEA3E5689
+    TARGET.CAPABILITY =
+    TARGET.EPOCALLOWDLLDATA = 1
+    addFiles.sources = ningeMain.dll
+    addFiles.path = !:/sys/bin
+    DEPLOYMENT += addFiles
+}
 
-FORMS    +=
+unix:!symbian {
+    maemo5 {
+        target.path = /opt/usr/lib
+    } else {
+        target.path = /usr/lib
+    }
+    INSTALLS += target
+}
 
 CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../output/release/lib -lcore
 else:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../output/debug/lib -lcored
 
 INCLUDEPATH += $$PWD/..
 DEPENDPATH += $$PWD/..
-
 
 #-------------------------------------------------
 #
@@ -67,3 +86,9 @@ CONFIG(debug, debug|release) {
   OBJECTS_DIR = ./release/obj   #将生成的对象文件放在专门的obj文件夹下
   MOC_DIR = ./release/moc       #将QT自动生成的对象放在moc文件夹下
 }
+
+FORMS += \
+    Main.ui
+
+RESOURCES += \
+    ningeMain.qrc

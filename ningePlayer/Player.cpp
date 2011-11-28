@@ -25,7 +25,10 @@
 
 #include <QtGui/QMessageBox>
 #include <QtGui/QDesktopWidget>
+#include <QtGui/QFileDialog>
 #include <QtCore/QTime>
+
+#include "core/CorePluginInterface.h"
 
 Player::Player(QWidget *parent) :
     QWidget(parent),
@@ -58,6 +61,9 @@ Player::Player(QWidget *parent) :
 
     ui->play->setIcon(m_iconPlay);
     ui->stop->setIcon(m_iconStop);
+
+    m_menu.setTitle(tr("ningePlayer"));
+    m_menu.addAction(tr("&Open File..."), this, SLOT(openFile()));
 }
 
 Player::~Player()
@@ -150,7 +156,16 @@ void Player::pause()
 
 void Player::stop()
 {
-  ui->videoPlayer->stop();
+    ui->videoPlayer->stop();
+}
+
+void Player::openFile()
+{
+    QString _file = QFileDialog::getOpenFileName(this, tr("Open File"));
+    if(!_file.isEmpty())
+    {
+        m_pMediaObject->enqueue(Phonon::MediaSource(_file));
+    }
 }
 
 void Player::hasVideoChanged(bool changed)

@@ -20,8 +20,11 @@
 #include <QtGui/QApplication>
 #include <QtCore/QTranslator>
 #include <QtCore/QLocale>
+#include <QtGui/QWidget>
 
-#include "NingeMain.h"
+#include "core/Core.h"
+#include "core/CorePluginInterface.h"
+#include "core/PluginManager.h"
 
 int main(int argc, char *argv[])
 {
@@ -41,8 +44,13 @@ int main(int argc, char *argv[])
   myappTranslator.load("ninge_" + QLocale::system().name(), ":/res/translations");
   a.installTranslator(&myappTranslator);
 
-  NingeMain w;
-  w.show();
+  // 获取插件管理器对象, 载入插件
+  ninge::PluginManager *_pluginManager = Core::getPluginManager();
+  _pluginManager->loadPlugins();
+
+  // 获取主窗口插件, 显示主窗口
+  ninge::CorePluginInterface *_ningeMain = _pluginManager->getPlugin("ningeMain");
+  _ningeMain->pluginMainWidget()->show();
 
   return a.exec();
 }

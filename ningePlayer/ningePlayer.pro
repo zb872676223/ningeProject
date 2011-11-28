@@ -16,8 +16,8 @@ SOURCES += NingePlayer.cpp \
 
 HEADERS += NingePlayer.h\
         ningePlayer_global.h \
-    ../core/CorePluginInterface.h \
-    Player.h
+    Player.h \
+    ../core/CorePluginInterface.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN

@@ -1,6 +1,6 @@
-/**************************************************************************
+/*************************************************************************
  *
- * Copyright (C) 2011 Ninsun
+ * Copyright (C) 2011 Ninsun, All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,35 +17,15 @@
  *
  *************************************************************************/
 
-#ifndef NINGEMAIN_H
-#define NINGEMAIN_H
+#ifndef NINGEMAIN_GLOBAL_H
+#define NINGEMAIN_GLOBAL_H
 
-#include <QtGui/QMainWindow>
+#include <QtCore/qglobal.h>
 
-#include "core/Core.h"
+#if defined(NINGEMAIN_LIBRARY)
+#  define NINGEMAINSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define NINGEMAINSHARED_EXPORT Q_DECL_IMPORT
+#endif
 
-namespace Ui
-{
-    class NingeMain;
-}
-
-class NingeMain : public QMainWindow
-{
-    Q_OBJECT
-
-public:
-    explicit NingeMain(QWidget *parent = 0);
-    ~NingeMain();
-
-private slots:
-  void on_action_About_Qt_triggered();
-
-  void on_action_About_ninge_triggered();
-
-private:
-    Ui::NingeMain *ui;
-
-    ninge::PluginManager *m_pPluginManager;
-};
-
-#endif // NINGEMAIN_H
+#endif // NINGEMAIN_GLOBAL_H
