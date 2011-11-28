@@ -69,7 +69,7 @@ CONFIG(debug, debug|release) {
   TARGET = $$join(TARGET,,,d)   #为debug版本生成的文件增加d的后缀
   contains(TEMPLATE, "lib") {
     DESTDIR = ../output/debug/lib        #将库放在lib文件夹下
-    DLLDESTDIR = ../output/debug/bin     #将动态库自动拷贝至bin目录下
+    DLLDESTDIR = ../output/debug/bin/ningePlugins     #将动态库自动拷贝至ningePlugins目录下
   } else {
     DESTDIR = ../output/debug/bin        #将应用程序放在bin目录下
   }
@@ -79,7 +79,7 @@ CONFIG(debug, debug|release) {
   #设置release配置下编译生成文件的路径
   contains(TEMPLATE, "lib") {
     DESTDIR = ../output/release/lib        #将库放在lib文件夹下
-    DLLDESTDIR = ../output/release/bin     #将动态库自动拷贝至bin目录下
+    DLLDESTDIR = ../output/release/bin/ningePlugins     #将动态库自动拷贝至ningePlugins目录下
   } else {
     DESTDIR = ../output/release/bin        #将应用程序放在bin目录下
   }

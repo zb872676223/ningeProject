@@ -21,6 +21,7 @@
 #include <QtCore/QTranslator>
 #include <QtCore/QLocale>
 #include <QtGui/QWidget>
+#include <QtGui/QMessageBox>
 
 #include "core/Core.h"
 #include "core/CorePluginInterface.h"
@@ -46,11 +47,31 @@ int main(int argc, char *argv[])
 
   // 获取插件管理器对象, 载入插件
   ninge::PluginManager *_pluginManager = Core::getPluginManager();
-  _pluginManager->loadPlugins();
+  if (_pluginManager)
+  {
+      _pluginManager->loadPlugins();
+  }
+  else
+  {
+      QMessageBox::critical(NULL,
+                            QObject::tr("Error"),
+                            QObject::tr("Can't load plugin manager.\nProgram is going to exit."));
+      exit(-1);
+  }
 
   // 获取主窗口插件, 显示主窗口
   ninge::CorePluginInterface *_ningeMain = _pluginManager->getPlugin("ningeMain");
-  _ningeMain->pluginMainWidget()->show();
+  if (_ningeMain)
+  {
+      _ningeMain->pluginMainWidget()->show();
+  }
+  else
+  {
+      QMessageBox::critical(NULL,
+                            QObject::tr("Error"),
+                            QObject::tr("Can't load main window.\nProgram is going to exit."));
+      exit(-2);
+  }
 
   return a.exec();
 }

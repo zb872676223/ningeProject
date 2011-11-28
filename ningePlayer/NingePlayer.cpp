@@ -21,24 +21,16 @@
 #include <QtCore/QtPlugin>
 #include <QtGui/QMenu>
 #include "NingePlayer.h"
+#include "Player.h"
 
 NingePlayer::NingePlayer()
-  : m_pPlayer(new Player())
+  : m_pPlayer(new Player(this))
 {
 }
 
 void NingePlayer::init()
 {
   m_pPlayer->init();
-  QList<QVariant> _args;
-
-  _args.clear();
-  _args << QVariant::fromValue<QObject *>(m_pPlayer->getMenu());
-  emit sendCommand("ningeMain", "addMenu", _args);
-
-  _args.clear();
-  _args << QVariant::fromValue<QObject *>(m_pPlayer->pluginMainWidget()) << "center";
-  emit sendCommand("ningeMain", "addWidget", _args);
 }
 
 QString NingePlayer::pluginName()
@@ -78,7 +70,12 @@ QVariant NingePlayer::exec(const QString &command, const QList<QVariant> &argume
 
 void NingePlayer::aboutToQuit()
 {
-  m_pPlayer->aboutToQuit();
+    m_pPlayer->aboutToQuit();
+}
+
+void NingePlayer::postCommand(const QString &plugin, const QString &command , const QList<QVariant> &arguments)
+{
+    emit sendCommand(plugin, command, arguments);
 }
 
 Q_EXPORT_PLUGIN2 ( ningePlayer, NingePlayer )

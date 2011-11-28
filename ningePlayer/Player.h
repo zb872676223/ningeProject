@@ -32,12 +32,14 @@ namespace Ui {
   class Player;
 }
 
+class NingePlayer;
+
 class Player : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit Player(QWidget *parent = 0);
+  explicit Player(NingePlayer *player, QWidget *parent = 0);
   ~Player();
 
 public:
@@ -80,6 +82,8 @@ private:
 
 private:
   Ui::Player *ui;
+
+  NingePlayer *m_pPlayer;
 
   Phonon::MediaObject *m_pMediaObject;
   Phonon::AudioOutput *m_pAudioOutput;

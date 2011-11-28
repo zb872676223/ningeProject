@@ -20,6 +20,8 @@
 #include "Main.h"
 #include "ui_Main.h"
 
+#include <QtCore/QDebug>
+
 Main::Main(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Main)
@@ -93,6 +95,11 @@ QVariant Main::exec(const QString &command, const QList<QVariant> &arguments)
               }
           }
       }
+    }
+    else if (command == "resize")
+    {
+      qApp->processEvents();
+      resize(sizeHint());
     }
     else
     {

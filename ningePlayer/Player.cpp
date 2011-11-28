@@ -29,41 +29,43 @@
 #include <QtCore/QTime>
 
 #include "core/CorePluginInterface.h"
+#include "NingePlayer.h"
 
-Player::Player(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::Player)
+Player::Player(NingePlayer *player, QWidget *parent) :
+  QWidget(parent),
+  ui(new Ui::Player),
+  m_pPlayer(player)
 {
-    ui->setupUi(this);
+  ui->setupUi(this);
 
-    m_pMediaObject = ui->videoPlayer->mediaObject();
-    m_pAudioOutput = ui->videoPlayer->audioOutput();
+  m_pMediaObject = ui->videoPlayer->mediaObject();
+  m_pAudioOutput = ui->videoPlayer->audioOutput();
 
-    ui->seekSlider->setMediaObject(m_pMediaObject);
-    ui->volumeSlider->setAudioOutput(m_pAudioOutput);
+  ui->seekSlider->setMediaObject(m_pMediaObject);
+  ui->volumeSlider->setAudioOutput(m_pAudioOutput);
 
-    connect(m_pMediaObject, SIGNAL(hasVideoChanged(bool)),
-            this, SLOT(hasVideoChanged(bool)));
-    connect(m_pMediaObject, SIGNAL(stateChanged(Phonon::State, Phonon::State)),
-            this, SLOT(playerStateChanged(Phonon::State,Phonon::State)));
-    connect(m_pMediaObject, SIGNAL(finished()),
-            this, SLOT(finished()));
-    connect(m_pMediaObject, SIGNAL(tick(qint64)),
-            this, SLOT(tick(qint64)));
-    connect(m_pMediaObject, SIGNAL(totalTimeChanged(qint64)),
-            this, SLOT(totalTimeChanged(qint64)));
+  connect(m_pMediaObject, SIGNAL(hasVideoChanged(bool)),
+          this, SLOT(hasVideoChanged(bool)));
+  connect(m_pMediaObject, SIGNAL(stateChanged(Phonon::State, Phonon::State)),
+          this, SLOT(playerStateChanged(Phonon::State,Phonon::State)));
+  connect(m_pMediaObject, SIGNAL(finished()),
+          this, SLOT(finished()));
+  connect(m_pMediaObject, SIGNAL(tick(qint64)),
+          this, SLOT(tick(qint64)));
+  connect(m_pMediaObject, SIGNAL(totalTimeChanged(qint64)),
+          this, SLOT(totalTimeChanged(qint64)));
 
-    m_iconPlay = style()->standardIcon(QStyle::SP_MediaPlay);
-    m_iconPause = style()->standardIcon(QStyle::SP_MediaPause);
-    m_iconStop = style()->standardIcon(QStyle::SP_MediaStop);
-    m_iconPrev = style()->standardIcon(QStyle::SP_MediaSkipBackward);
-    m_iconNext = style()->standardIcon(QStyle::SP_MediaSkipForward);
+  m_iconPlay = style()->standardIcon(QStyle::SP_MediaPlay);
+  m_iconPause = style()->standardIcon(QStyle::SP_MediaPause);
+  m_iconStop = style()->standardIcon(QStyle::SP_MediaStop);
+  m_iconPrev = style()->standardIcon(QStyle::SP_MediaSkipBackward);
+  m_iconNext = style()->standardIcon(QStyle::SP_MediaSkipForward);
 
-    ui->play->setIcon(m_iconPlay);
-    ui->stop->setIcon(m_iconStop);
+  ui->play->setIcon(m_iconPlay);
+  ui->stop->setIcon(m_iconStop);
 
-    m_menu.setTitle(tr("ningePlayer"));
-    m_menu.addAction(tr("&Open File..."), this, SLOT(openFile()));
+  m_menu.setTitle(tr("ningePlayer"));
+  m_menu.addAction(tr("&Open File..."), this, SLOT(openFile()));
 }
 
 Player::~Player()
@@ -73,6 +75,15 @@ Player::~Player()
 
 void Player::init()
 {
+  QList<QVariant> _args;
+
+  _args.clear();
+  _args << QVariant::fromValue<QObject *>(&m_menu);
+  m_pPlayer->postCommand("ningeMain", "addMenu", _args);
+
+  _args.clear();
+  _args << QVariant::fromValue<QObject *>(this) << "center";
+  m_pPlayer->postCommand("ningeMain", "addWidget", _args);
 }
 
 QString Player::pluginName()
@@ -107,21 +118,40 @@ QObject * Player::pluginInnerObject(const QString &/*name*/)
 
 QVariant Player::exec(const QString &command, const QList<QVariant> &arguments)
 {
-  if (command == "play") {
-    if (arguments.size()>0) {
-      m_pMediaObject->clearQueue();
-      play(arguments.first().toString());
+  if(command == "load")
+  {
+    if (arguments.size()>0)
+    {
       QListIterator<QVariant> _itemIt(arguments);
-      _itemIt.next();
-      while(_itemIt.hasNext()) {
+      while(_itemIt.hasNext())
+      {
         m_pMediaObject->enqueue(Phonon::MediaSource(_itemIt.next().toString()));
       }
     }
-  } else if (command == "pause") {
+  }
+  else if (command == "play")
+  {
+    if (arguments.size()>0)
+    {
+      m_pMediaObject->clearQueue();
+      QListIterator<QVariant> _itemIt(arguments);
+      while(_itemIt.hasNext())
+      {
+        m_pMediaObject->enqueue(Phonon::MediaSource(_itemIt.next().toString()));
+      }
+      play(m_pMediaObject->queue().first());
+    }
+  }
+  else if (command == "pause")
+  {
     pause();
-  } else if (command == "stop") {
+  }
+  else if (command == "stop")
+  {
     stop();
-  } else {
+  }
+  else
+  {
     return "command not found in ningePlayer";
   }
 
@@ -156,23 +186,28 @@ void Player::pause()
 
 void Player::stop()
 {
-    ui->videoPlayer->stop();
+  ui->videoPlayer->stop();
 }
 
 void Player::openFile()
 {
-    QString _file = QFileDialog::getOpenFileName(this, tr("Open File"));
-    if(!_file.isEmpty())
-    {
-        m_pMediaObject->enqueue(Phonon::MediaSource(_file));
-    }
+  QString _file = QFileDialog::getOpenFileName(this, tr("Open File"));
+  if(!_file.isEmpty())
+  {
+    m_pMediaObject->clearQueue();
+    m_pMediaObject->enqueue(Phonon::MediaSource(_file));
+    play();
+  }
 }
 
 void Player::hasVideoChanged(bool changed)
 {
-  if(changed) {
+  if(changed)
+  {
     ui->videoWidget->setCurrentIndex(1);
-  } else {
+  }
+  else
+  {
     ui->videoWidget->setCurrentIndex(0);
   }
 }
@@ -180,6 +215,17 @@ void Player::hasVideoChanged(bool changed)
 void Player::playerStateChanged(Phonon::State newState, Phonon::State oldState)
 {
   ui->play->setIcon(m_iconPlay);
+
+  if(oldState == Phonon::LoadingState && newState != Phonon::ErrorState)
+  {
+    if (m_pMediaObject->hasVideo())
+    {
+      qApp->processEvents();
+      resize(sizeHint());
+
+      m_pPlayer->postCommand("ningeMain", "resize");
+    }
+  }
 
   // 单状态判断
   if (newState == Phonon::LoadingState)
@@ -192,11 +238,6 @@ void Player::playerStateChanged(Phonon::State newState, Phonon::State oldState)
   }
   else if (newState == Phonon::PlayingState)
   {
-    if(oldState == Phonon::LoadingState)
-    {
-      qApp->processEvents();
-      resize(sizeHint());
-    }
     ui->state->setText(tr("Playing..."));
     ui->play->setIcon(m_iconPause);
   }
@@ -212,7 +253,7 @@ void Player::playerStateChanged(Phonon::State newState, Phonon::State oldState)
   // 多状态/错误判断
   if (newState == Phonon::StoppedState && oldState == Phonon::LoadingState)
   {
-    ui->state->setText(tr("Ready..."));
+    ui->state->setText(tr("Loading complete"));
   }
   else if (newState == Phonon::ErrorState && oldState == Phonon::LoadingState)
   {

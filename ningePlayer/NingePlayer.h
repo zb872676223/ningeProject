@@ -23,7 +23,8 @@
 #include "core/CorePluginInterface.h"
 
 #include "ningePlayer_global.h"
-#include "Player.h"
+
+class Player;
 
 class NINGEPLAYERSHARED_EXPORT NingePlayer : public ninge::CorePluginInterface
 {
@@ -54,6 +55,7 @@ public:
   // 插件在退出时应该做的额外操作, 会被插件管理器自动调用
   virtual void aboutToQuit();
 
+  void postCommand(const QString &plugin = QString(), const QString &command = QString() , const QList<QVariant> &arguments = QList<QVariant>());
 private:
   Player *m_pPlayer;
 };
