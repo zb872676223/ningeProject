@@ -7,6 +7,9 @@
 TARGET = ningeMain
 TEMPLATE = lib
 
+VERSION = 0.1.2
+CONFIG += create_prl
+
 DEFINES += NINGEMAIN_LIBRARY
 
 SOURCES += NingeMain.cpp \
@@ -70,6 +73,10 @@ CONFIG(debug, debug|release) {
   contains(TEMPLATE, "lib") {
     DESTDIR = ../output/debug/lib        #将库放在lib文件夹下
     DLLDESTDIR = ../output/debug/bin/ningePlugins     #将动态库自动拷贝至ningePlugins目录下
+    unix:{    #Unix系统下
+      target.path = ../output/debug/bin/ningePlugins
+      INSTALLS += target
+    }
   } else {
     DESTDIR = ../output/debug/bin        #将应用程序放在bin目录下
   }
@@ -80,6 +87,10 @@ CONFIG(debug, debug|release) {
   contains(TEMPLATE, "lib") {
     DESTDIR = ../output/release/lib        #将库放在lib文件夹下
     DLLDESTDIR = ../output/release/bin/ningePlugins     #将动态库自动拷贝至ningePlugins目录下
+    unix:{    #Unix系统下
+      target.path = ../output/release/bin/ningePlugins
+      INSTALLS += target
+    }
   } else {
     DESTDIR = ../output/release/bin        #将应用程序放在bin目录下
   }

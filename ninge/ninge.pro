@@ -9,6 +9,7 @@ QT       += core gui
 TARGET = ninge
 TEMPLATE = app
 
+VERSION = 0.1.2
 
 SOURCES += main.cpp
 

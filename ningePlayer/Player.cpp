@@ -139,7 +139,7 @@ QVariant Player::exec(const QString &command, const QList<QVariant> &arguments)
       {
         m_pMediaObject->enqueue(Phonon::MediaSource(_itemIt.next().toString()));
       }
-      play(m_pMediaObject->queue().first());
+      play();
     }
   }
   else if (command == "pause")

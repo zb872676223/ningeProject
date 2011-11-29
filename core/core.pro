@@ -9,6 +9,9 @@ QT    += core gui xml
 TARGET = core
 TEMPLATE = lib
 
+VERSION = 0.1.2
+CONFIG += create_prl
+
 DEFINES += CORE_LIBRARY
 
 SOURCES += Core.cpp \
@@ -66,20 +69,28 @@ CONFIG(debug, debug|release) {
   #设置debug配置下编译生成文件的路径
   TARGET = $$join(TARGET,,,d)   #为debug版本生成的文件增加d的后缀
   contains(TEMPLATE, "lib") {
-    DESTDIR = ../output/debug/lib        #将库放在lib文件夹下
-    DLLDESTDIR = ../output/debug/bin     #将动态库自动拷贝至bin目录下
+    DESTDIR = ../output/debug/lib         #将库放在lib文件夹下
+    DLLDESTDIR = ../output/debug/bin      #将动态库自动拷贝至bin目录下
+    unix:{    #Unix系统下
+      target.path = ../output/debug/bin
+      INSTALLS += target
+    }
   } else {
-    DESTDIR = ../output/debug/bin        #将应用程序放在bin目录下
+    DESTDIR = ../output/debug/bin         #将应用程序放在bin目录下
   }
   OBJECTS_DIR = ./debug/obj     #将生成的对象文件放在专门的obj文件夹下
   MOC_DIR = ./debug/moc         #将QT自动生成的对象放在moc文件夹下
 } else {
   #设置release配置下编译生成文件的路径
   contains(TEMPLATE, "lib") {
-    DESTDIR = ../output/release/lib        #将库放在lib文件夹下
-    DLLDESTDIR = ../output/release/bin     #将动态库自动拷贝至bin目录下
+    DESTDIR = ../output/release/lib       #将库放在lib文件夹下
+    DLLDESTDIR = ../output/release/bin    #将动态库自动拷贝至bin目录下
+    unix:{    #Unix系统下
+      target.path = ../output/release/bin
+      INSTALLS += target
+    }
   } else {
-    DESTDIR = ../output/release/bin        #将应用程序放在bin目录下
+    DESTDIR = ../output/release/bin       #将应用程序放在bin目录下
   }
   OBJECTS_DIR = ./release/obj   #将生成的对象文件放在专门的obj文件夹下
   MOC_DIR = ./release/moc       #将QT自动生成的对象放在moc文件夹下
