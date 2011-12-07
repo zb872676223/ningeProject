@@ -9,7 +9,8 @@ QT    += core gui xml
 TARGET = core
 TEMPLATE = lib
 
-VERSION = 0.1.2
+include(../version.pri)
+
 CONFIG += create_prl
 
 DEFINES += CORE_LIBRARY

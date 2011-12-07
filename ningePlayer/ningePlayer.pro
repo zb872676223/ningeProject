@@ -9,7 +9,8 @@ QT       += phonon
 TARGET = ningePlayer
 TEMPLATE = lib
 
-VERSION = 0.1.2
+include(../version.pri)
+
 CONFIG += create_prl
 
 DEFINES += NINGEPLAYER_LIBRARY

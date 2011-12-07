@@ -7,7 +7,8 @@
 TARGET = ningeMain
 TEMPLATE = lib
 
-VERSION = 0.1.2
+include(../version.pri)
+
 CONFIG += create_prl
 
 DEFINES += NINGEMAIN_LIBRARY
