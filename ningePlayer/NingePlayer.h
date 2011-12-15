@@ -56,6 +56,7 @@ public:
   virtual void aboutToQuit();
 
   void postCommand(const QString &plugin = QString(), const QString &command = QString() , const QList<QVariant> &arguments = QList<QVariant>());
+
 private:
   Player *m_pPlayer;
 };

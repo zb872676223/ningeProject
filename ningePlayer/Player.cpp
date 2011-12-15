@@ -64,8 +64,10 @@ Player::Player(NingePlayer *player, QWidget *parent) :
   ui->play->setIcon(m_iconPlay);
   ui->stop->setIcon(m_iconStop);
 
-  m_menu.setTitle(tr("ningePlayer"));
+  m_menu.setTitle(tr("&Player"));
   m_menu.addAction(tr("&Open File..."), this, SLOT(openFile()));
+
+  ui->controlWidget->setVisible(false);
 }
 
 Player::~Player()
@@ -75,15 +77,15 @@ Player::~Player()
 
 void Player::init()
 {
-  QList<QVariant> _args;
+//  QList<QVariant> _args;
 
-  _args.clear();
-  _args << QVariant::fromValue<QObject *>(&m_menu);
-  m_pPlayer->postCommand("ningeMain", "addMenu", _args);
+//  _args.clear();
+//  _args << QVariant::fromValue<QObject *>(&m_menu);
+//  m_pPlayer->postCommand("ningeMain", "addMenu", _args);
 
-  _args.clear();
-  _args << QVariant::fromValue<QObject *>(this) << "center";
-  m_pPlayer->postCommand("ningeMain", "addWidget", _args);
+//  _args.clear();
+//  _args << QVariant::fromValue<QObject *>(this) << "center";
+//  m_pPlayer->postCommand("ningeMain", "addWidget", _args);
 }
 
 QString Player::pluginName()
@@ -149,6 +151,14 @@ QVariant Player::exec(const QString &command, const QList<QVariant> &arguments)
   else if (command == "stop")
   {
     stop();
+  }
+  else if (command == "showControl")
+  {
+    ui->controlWidget->setVisible(arguments.value(0).toBool());
+  }
+  else if (command == "showVideo")
+  {
+    ui->videoWidget->setVisible(arguments.value(0).toBool());
   }
   else
   {
@@ -216,16 +226,15 @@ void Player::playerStateChanged(Phonon::State newState, Phonon::State oldState)
 {
   ui->play->setIcon(m_iconPlay);
 
-  if(oldState == Phonon::LoadingState && newState != Phonon::ErrorState)
-  {
-    if (m_pMediaObject->hasVideo())
-    {
-      qApp->processEvents();
-      resize(sizeHint());
-
-      m_pPlayer->postCommand("ningeMain", "resize");
-    }
-  }
+//  if(oldState == Phonon::LoadingState && newState != Phonon::ErrorState)
+//  {
+//    if (m_pMediaObject->hasVideo())
+//    {
+//      qApp->processEvents();
+//      resize(sizeHint());
+//      m_pPlayer->postCommand("ningeMain", "resize");
+//    }
+//  }
 
   // 单状态判断
   if (newState == Phonon::LoadingState)

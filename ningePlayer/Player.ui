@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>ninge player</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -40,7 +40,7 @@ background-color: rgb(0, 0, 0);</string>
         <number>0</number>
        </property>
        <item>
-        <widget class="Phonon::VideoPlayer" name="videoPlayer"/>
+        <widget class="Phonon::VideoPlayer" name="videoPlayer" native="true"/>
        </item>
       </layout>
      </widget>
@@ -56,8 +56,8 @@ background-color: rgb(0, 0, 0);</string>
        <number>1</number>
       </property>
       <item>
-       <widget class="Phonon::SeekSlider" name="seekSlider">
-        <property name="iconVisible">
+       <widget class="Phonon::SeekSlider" name="seekSlider" native="true">
+        <property name="iconVisible" stdset="0">
          <bool>false</bool>
         </property>
        </widget>
@@ -101,7 +101,7 @@ background-color: rgb(0, 0, 0);</string>
          </spacer>
         </item>
         <item>
-         <widget class="Phonon::VolumeSlider" name="volumeSlider">
+         <widget class="Phonon::VolumeSlider" name="volumeSlider" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
             <horstretch>0</horstretch>

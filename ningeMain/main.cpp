@@ -21,6 +21,7 @@
 #include "ui_Main.h"
 
 #include <QtCore/QDebug>
+#include <QtGui/QMouseEvent>
 
 Main::Main(QWidget *parent) :
     QMainWindow(parent),
@@ -91,7 +92,8 @@ QVariant Main::exec(const QString &command, const QList<QVariant> &arguments)
           {
               if(_place == "center")
               {
-                  setCentralWidget(_widget);
+                ui->centralStack->addWidget(_widget);
+                ui->centralStack->setCurrentWidget(_widget);
               }
           }
       }
@@ -99,7 +101,14 @@ QVariant Main::exec(const QString &command, const QList<QVariant> &arguments)
     else if (command == "resize")
     {
       qApp->processEvents();
-      resize(sizeHint());
+      if(sizeHint().isValid() && !sizeHint().isEmpty())
+      {
+        setMinimumSize(0, 0);
+        setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+        resize(sizeHint());
+        setMinimumSize(size());
+        setMaximumSize(size());
+      }
     }
     else
     {
@@ -120,5 +129,5 @@ void Main::on_actionAbout_ninge_triggered()
 
 void Main::on_actionAbout_Qt_triggered()
 {
-    qApp->aboutQt();
+  qApp->aboutQt();
 }

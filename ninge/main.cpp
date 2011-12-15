@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
   if (_ningeMain)
   {
       _ningeMain->pluginMainWidget()->show();
+      _ningeMain->exec("resize");
   }
   else
   {

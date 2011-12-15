@@ -19,7 +19,7 @@
 
 #include <QtCore/QVariant>
 #include <QtCore/QtPlugin>
-#include <QtGui/QMenu>
+
 #include "NingePlayer.h"
 #include "Player.h"
 
