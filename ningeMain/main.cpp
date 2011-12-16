@@ -28,6 +28,7 @@ Main::Main(QWidget *parent) :
     ui(new Ui::Main)
 {
     ui->setupUi(this);
+    ui->menubar->setVisible(false);
 }
 
 Main::~Main()
@@ -101,13 +102,14 @@ QVariant Main::exec(const QString &command, const QList<QVariant> &arguments)
     else if (command == "resize")
     {
       qApp->processEvents();
-      if(sizeHint().isValid() && !sizeHint().isEmpty())
+      QSize _size = arguments.value(0).toSize();
+      if(_size.isValid() && !_size.isEmpty())
       {
         setMinimumSize(0, 0);
         setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-        resize(sizeHint());
-        setMinimumSize(size());
-        setMaximumSize(size());
+        resize(_size);
+        setMinimumSize(_size);
+        setMaximumSize(_size);
       }
     }
     else

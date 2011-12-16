@@ -63,8 +63,10 @@ int main(int argc, char *argv[])
   ninge::CorePluginInterface *_ningeMain = _pluginManager->getPlugin("ningeMain");
   if (_ningeMain)
   {
+      QList<QVariant> _args;
+      _args << QSize(400, 300);
+      _ningeMain->exec("resize", _args);
       _ningeMain->pluginMainWidget()->show();
-      _ningeMain->exec("resize");
   }
   else
   {

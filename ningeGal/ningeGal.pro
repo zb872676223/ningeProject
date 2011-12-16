@@ -16,12 +16,16 @@ CONFIG += create_prl
 DEFINES += NINGEGAL_LIBRARY
 
 SOURCES += NingeGal.cpp \
-    Gal.cpp
+    Gal.cpp \
+    GalPixmapItem.cpp \
+    GalTextItem.cpp
 
 HEADERS += NingeGal.h\
         ningeGal_global.h \
     Gal.h \
-    ../core/CorePluginInterface.h
+    ../core/CorePluginInterface.h \
+    GalPixmapItem.h \
+    GalTextItem.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN

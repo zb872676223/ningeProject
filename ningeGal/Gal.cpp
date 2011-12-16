@@ -23,6 +23,8 @@
 #include "Gal.h"
 #include "ui_Gal.h"
 
+#include "GalPixmapItem.h"
+
 Gal::Gal(NingeGal *gal,QWidget *parent) :
   QWidget(parent),
   ui(new Ui::Gal),
@@ -30,8 +32,17 @@ Gal::Gal(NingeGal *gal,QWidget *parent) :
 {
   ui->setupUi(this);
 
-  m_pMainScene = new QGraphicsScene(0, 0, 640, 480);
+  ui->graphicsView->setSceneRect(0, 0,
+                                 ui->graphicsView->size().width(),
+                                 ui->graphicsView->size().height());
+
+  m_pMainScene = new QGraphicsScene();
   ui->graphicsView->setScene(m_pMainScene);
+
+  GalPixmapItem *_item = new GalPixmapItem();
+  _item->setGif(QString::fromUtf8("E:/IMG/图片/free_llama_running__3_by_MenInASuitcase.gif"));
+
+  m_pMainScene->addItem(_item);
 }
 
 Gal::~Gal()
@@ -93,15 +104,6 @@ QVariant Gal::exec(const QString &command, const QList<QVariant> &arguments)
   {
   }
   else if (command == "setBackground")
-  {
-  }
-  else if (command == "setMusic")
-  {
-  }
-  else if (command == "setSound")
-  {
-  }
-  else if (command == "setEffect")
   {
   }
   else
