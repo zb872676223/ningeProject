@@ -42,7 +42,7 @@ void GalTextItem::setText(const QString &text)
   m_text = text;
 }
 
-void GalTextItem::setEffect(const QString &effect)
+void GalTextItem::setEffect(QString effect)
 {
   effect.remove('\r').remove('\n');
   m_effect.clear();

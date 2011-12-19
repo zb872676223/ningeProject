@@ -35,7 +35,7 @@ public:
 
 public:
   void setText(const QString &text);
-  void setEffect(const QString &effect);
+  void setEffect(QString effect);
 
 public slots:
   void start();

@@ -56,6 +56,14 @@ namespace ninge
     // 插件在退出时应该做的额外操作, 会被插件管理器自动调用
     virtual void aboutToQuit() = 0;
 
+    // 发送请求命令
+    void postCommand(const QString &plugin = QString(),
+                     const QString &command = QString() ,
+                     const QList<QVariant> &arguments = QList<QVariant>())
+    {
+      emit sendCommand(plugin, command, arguments);
+    }
+
   signals:
     // 向外部发送一条命令信号, 由插件管理器接收并做出相应的处理
     void sendCommand(const QString &plugin, const QString &command, const QList<QVariant> &arguments);

@@ -73,9 +73,4 @@ void NingePlayer::aboutToQuit()
     m_pPlayer->aboutToQuit();
 }
 
-void NingePlayer::postCommand(const QString &plugin, const QString &command , const QList<QVariant> &arguments)
-{
-    emit sendCommand(plugin, command, arguments);
-}
-
 Q_EXPORT_PLUGIN2 ( ningePlayer, NingePlayer )
