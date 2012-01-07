@@ -18,12 +18,19 @@
  *************************************************************************/
 
 #include <QtGui/QGraphicsScene>
+#include <QtCore/QSettings>
 
 #include "NingeGal.h"
 #include "Gal.h"
 #include "ui_Gal.h"
 
 #include "GalPixmapItem.h"
+#include "GalTextItem.h"
+
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
+#include <QtGui/QGraphicsDropShadowEffect>
+#include <QtOpenGL/QGLWidget>
 
 Gal::Gal(NingeGal *gal,QWidget *parent) :
   QWidget(parent),
@@ -32,17 +39,45 @@ Gal::Gal(NingeGal *gal,QWidget *parent) :
 {
   ui->setupUi(this);
 
-  ui->graphicsView->setSceneRect(0, 0,
-                                 ui->graphicsView->size().width(),
-                                 ui->graphicsView->size().height());
+  ui->graphicsView->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
+
+  // 读取并初始化配置
+  QVariant _width(640);
+  QVariant _height(480);
+  QSettings _settings("ninge.cfg", QSettings::IniFormat);
+  _width = _settings.value("width", _width);
+  _settings.setValue("width", _width);
+  _height = _settings.value("height", _height);
+  _settings.setValue("height", _height);
+
+  ui->graphicsView->setSceneRect(0, 0, _width.toInt(), _height.toInt());
 
   m_pMainScene = new QGraphicsScene();
   ui->graphicsView->setScene(m_pMainScene);
 
   GalPixmapItem *_item = new GalPixmapItem();
   _item->setGif(QString::fromUtf8("E:/IMG/图片/free_llama_running__3_by_MenInASuitcase.gif"));
-
   m_pMainScene->addItem(_item);
+
+  QGraphicsRectItem *_textBackground = new QGraphicsRectItem();
+
+  _textBackground->setRect(0, 0, _width.toInt()-40, _height.toInt()-40);
+  _textBackground->setPos(20, 20);
+  _textBackground->setBrush(QBrush(QColor(0,0,0,127)));
+  _textBackground->setPen(QPen(Qt::NoPen));
+  m_pMainScene->addItem(_textBackground);
+
+  QFile _file(QString::fromUtf8("E:/资料/我的世界不可能这么平凡-删减版.txt"));
+  _file.open(QFile::ReadOnly);
+  GalTextItem *_text = new GalTextItem(_textBackground);
+  QTextStream _stream(_file.readAll());
+  _stream.setCodec("GB2312");
+  _text->setText(_stream.readAll());
+
+  _text->setTextWidth(_textBackground->rect().width());
+  _text->setMaxHeight(_textBackground->rect().height());
+  _text->setInterval(20);
+  _text->start();
 }
 
 Gal::~Gal()

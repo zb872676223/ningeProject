@@ -20,6 +20,7 @@
 #include <QtGui/QApplication>
 #include <QtCore/QTranslator>
 #include <QtCore/QLocale>
+#include <QtCore/QSettings>
 #include <QtGui/QWidget>
 #include <QtGui/QMessageBox>
 
@@ -59,12 +60,21 @@ int main(int argc, char *argv[])
       exit(-1);
   }
 
+  // 读取并初始化配置
+  QVariant _width(640);
+  QVariant _height(480);
+  QSettings _settings("ninge.cfg", QSettings::IniFormat);
+  _width = _settings.value("width", _width);
+  _settings.setValue("width", _width);
+  _height = _settings.value("height", _height);
+  _settings.setValue("height", _height);
+
   // 获取主窗口插件, 显示主窗口
   ninge::CorePluginInterface *_ningeMain = _pluginManager->getPlugin("ningeMain");
   if (_ningeMain)
   {
       QList<QVariant> _args;
-      _args << QSize(400, 300);
+      _args << QSize(_width.toInt(), _height.toInt());
       _ningeMain->exec("resize", _args);
       _ningeMain->pluginMainWidget()->show();
   }

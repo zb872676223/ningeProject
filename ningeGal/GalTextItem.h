@@ -37,6 +37,9 @@ public:
   void setText(const QString &text);
   void setEffect(QString effect);
 
+  int maxRows() { return m_dMaxHeight; }
+  void setMaxHeight(qreal val) { m_dMaxHeight = val; }
+
 public slots:
   void start();
   void setInterval(int interval);
@@ -55,7 +58,7 @@ private:
   QString m_text;
   QMap<int, QString> m_effect;
   int m_iIndex;
-  int m_iMaxRows;
+  int m_dMaxHeight;
 
   static int m_iInterval;
   int m_iTimerID;

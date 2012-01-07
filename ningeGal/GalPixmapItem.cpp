@@ -30,6 +30,7 @@ GalPixmapItem::GalPixmapItem(QGraphicsItem * parent)
 GalPixmapItem::GalPixmapItem(const QPixmap & pixmap, QGraphicsItem * parent)
   :QGraphicsPixmapItem(pixmap, parent)
 {
+  m_pMovie = NULL;
 }
 
 void GalPixmapItem::setGif(const QString &url)
@@ -79,7 +80,7 @@ void GalPixmapItem::setSpeed(int percentSpeed)
   }
 }
 
-void GalPixmapItem::frameChanged(int frameNumber)
+void GalPixmapItem::frameChanged(int /*frameNumber*/)
 {
   if (m_pMovie)
   {

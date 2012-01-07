@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += xml
+QT       += xml opengl
 
 TARGET = ningeGal
 TEMPLATE = lib

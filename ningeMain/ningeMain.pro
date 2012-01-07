@@ -13,13 +13,15 @@ CONFIG += create_prl
 
 DEFINES += NINGEMAIN_LIBRARY
 
-SOURCES += NingeMain.cpp \
-    Main.cpp
+SOURCES += \
+    Main.cpp \
+    ningeMain.cpp
 
-HEADERS += NingeMain.h\
+HEADERS +=\
         ningeMain_global.h \
     Main.h \
-    ../core/CorePluginInterface.h
+    ../core/CorePluginInterface.h \
+    ningeMain.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN
