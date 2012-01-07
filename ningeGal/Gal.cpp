@@ -39,16 +39,23 @@ Gal::Gal(NingeGal *gal,QWidget *parent) :
 {
   ui->setupUi(this);
 
-  ui->graphicsView->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
-
   // 读取并初始化配置
+  QSettings _settings("ninge.cfg", QSettings::IniFormat);
+  // width & height
   QVariant _width(640);
   QVariant _height(480);
-  QSettings _settings("ninge.cfg", QSettings::IniFormat);
   _width = _settings.value("width", _width);
   _settings.setValue("width", _width);
   _height = _settings.value("height", _height);
   _settings.setValue("height", _height);
+  // openGL enable
+  QVariant _openGL(true);
+  _openGL = _settings.value("openGL", _openGL);
+  _settings.setValue("openGL", _openGL);
+  if(_openGL.toBool())
+  {
+    ui->graphicsView->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
+  }
 
   ui->graphicsView->setSceneRect(0, 0, _width.toInt(), _height.toInt());
 
@@ -56,7 +63,8 @@ Gal::Gal(NingeGal *gal,QWidget *parent) :
   ui->graphicsView->setScene(m_pMainScene);
 
   GalPixmapItem *_item = new GalPixmapItem();
-  _item->setGif(QString::fromUtf8("E:/IMG/图片/free_llama_running__3_by_MenInASuitcase.gif"));
+  //_item->setGif(QString::fromUtf8("E:/IMG/图片/free_llama_running__3_by_MenInASuitcase.gif"));
+  _item->setPixmap(QString::fromUtf8("/home/ninsun/wallpaper/moe 182803 landscape zhenlin.jpg"));
   m_pMainScene->addItem(_item);
 
   QGraphicsRectItem *_textBackground = new QGraphicsRectItem();
@@ -67,7 +75,7 @@ Gal::Gal(NingeGal *gal,QWidget *parent) :
   _textBackground->setPen(QPen(Qt::NoPen));
   m_pMainScene->addItem(_textBackground);
 
-  QFile _file(QString::fromUtf8("E:/资料/我的世界不可能这么平凡-删减版.txt"));
+  QFile _file(QString::fromUtf8("/home/ninsun/gpl-3.0.txt"));
   _file.open(QFile::ReadOnly);
   GalTextItem *_text = new GalTextItem(_textBackground);
   QTextStream _stream(_file.readAll());
