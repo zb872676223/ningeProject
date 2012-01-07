@@ -15,13 +15,13 @@ DEFINES += NINGEMAIN_LIBRARY
 
 SOURCES += \
     Main.cpp \
-    ningeMain.cpp
+    NingeMain.cpp
 
 HEADERS +=\
         ningeMain_global.h \
     Main.h \
     ../core/CorePluginInterface.h \
-    ningeMain.h
+    NingeMain.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN

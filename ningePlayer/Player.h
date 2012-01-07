@@ -26,7 +26,7 @@
 #include <QtGui/QAction>
 
 #include <QtCore/QVariant>
-#include <phonon/Phonon>
+#include <phonon/phonon>
 
 namespace Ui {
   class Player;

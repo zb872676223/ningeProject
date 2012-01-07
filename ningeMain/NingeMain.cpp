@@ -20,7 +20,7 @@
 #include <QtCore/QVariant>
 #include <QtCore/QtPlugin>
 
-#include "ningeMain.h"
+#include "NingeMain.h"
 
 NingeMain::NingeMain()
     :m_pMain(new Main())
