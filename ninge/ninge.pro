@@ -17,8 +17,8 @@ HEADERS  +=
 
 FORMS    +=
 
-CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../output/release/lib -lcore
-else:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../output/debug/lib -lcored
+CONFIG(release, debug|release): LIBS += -L$$PWD/../output/release/lib -lcore
+else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../output/debug/lib -lcored
 
 INCLUDEPATH += $$PWD/..
 DEPENDPATH += $$PWD/..
@@ -38,9 +38,9 @@ contains(TEMPLATE, "lib") {
 } else {
   DESTDIR = $$OUTPUT_DIR/bin
 }
-UI_DIR = $$OUTPUT_DIR/build/ui
-OBJECTS_DIR = $$OUTPUT_DIR/build/obj
-MOC_DIR = $$OUTPUT_DIR/build/moc
+UI_DIR = $$OUTPUT_DIR/build/ui/$$TARGET
+OBJECTS_DIR = $$OUTPUT_DIR/build/obj/$$TARGET
+MOC_DIR = $$OUTPUT_DIR/build/moc/$$TARGET
 
 #unix:{
 #  target.path = $$OUTPUT_DIR/bin

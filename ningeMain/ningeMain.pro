@@ -65,13 +65,13 @@ CONFIG(debug, debug|release) {
 
 contains(TEMPLATE, "lib") {
   DESTDIR = $$OUTPUT_DIR/lib
-  DLLDESTDIR = $$OUTPUT_DIR/bin
+  DLLDESTDIR = $$OUTPUT_DIR/bin/ningePlugins
 } else {
   DESTDIR = $$OUTPUT_DIR/bin
 }
-UI_DIR = $$OUTPUT_DIR/build/ui
-OBJECTS_DIR = $$OUTPUT_DIR/build/obj
-MOC_DIR = $$OUTPUT_DIR/build/moc
+UI_DIR = $$OUTPUT_DIR/build/ui/$$TARGET
+OBJECTS_DIR = $$OUTPUT_DIR/build/obj/$$TARGET
+MOC_DIR = $$OUTPUT_DIR/build/moc/$$TARGET
 
 unix:{
   target.path = $$OUTPUT_DIR/bin/ningePlugins
