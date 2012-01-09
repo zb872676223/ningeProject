@@ -37,14 +37,14 @@ symbian {
     DEPLOYMENT += addFiles
 }
 
-unix:!symbian {
-    maemo5 {
-        target.path = /opt/usr/lib
-    } else {
-        target.path = /usr/lib
-    }
-    INSTALLS += target
-}
+#unix:!symbian {
+#    maemo5 {
+#        target.path = /opt/usr/lib
+#    } else {
+#        target.path = /usr/lib
+#    }
+#    INSTALLS += target
+#}
 
 CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../output/release/lib -lcore
 else:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../output/debug/lib -lcored
@@ -55,33 +55,26 @@ DEPENDPATH += $$PWD/..
 FORMS += \
     Gal.ui
 
-UI_DIR = ./ui
-
 CONFIG(debug, debug|release) {
+  OUTPUT_DIR = $$PWD/../output/debug
+  message(debug: $$OUTPUT_DIR)
   TARGET = $$join(TARGET,,,d)
-  contains(TEMPLATE, "lib") {
-    DESTDIR = ../output/debug/lib
-    DLLDESTDIR = ../output/debug/bin/ningePlugins
-    unix:{
-      target.path = ../output/debug/bin/ningePlugins
-      INSTALLS += target
-    }
-  } else {
-    DESTDIR = ../output/debug/bin
-  }
-  OBJECTS_DIR = ./debug/obj
-  MOC_DIR = ./debug/moc
 } else {
-  contains(TEMPLATE, "lib") {
-    DESTDIR = ../output/release/lib
-    DLLDESTDIR = ../output/release/bin/ningePlugins
-    unix:{
-      target.path = ../output/release/bin/ningePlugins
-      INSTALLS += target
-    }
-  } else {
-    DESTDIR = ../output/release/bin
-  }
-  OBJECTS_DIR = ./release/obj
-  MOC_DIR = ./release/moc
+  OUTPUT_DIR = $$PWD/../output/release
+  message(release: $$OUTPUT_DIR)
+}
+
+contains(TEMPLATE, "lib") {
+  DESTDIR = $$OUTPUT_DIR/lib
+  DLLDESTDIR = $$OUTPUT_DIR/bin
+} else {
+  DESTDIR = $$OUTPUT_DIR/bin
+}
+UI_DIR = $$OUTPUT_DIR/build/ui
+OBJECTS_DIR = $$OUTPUT_DIR/build/obj
+MOC_DIR = $$OUTPUT_DIR/build/moc
+
+unix:{
+  target.path = $$OUTPUT_DIR/bin/ningePlugins
+  INSTALLS += target
 }

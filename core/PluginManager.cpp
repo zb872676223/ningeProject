@@ -70,7 +70,7 @@ void PluginManager::loadPlugins()
   while(!_searchPaths.isEmpty())
   {
     QDir _dir(_searchPaths.takeFirst());
-    QStringListIterator _fileIt(_dir.entryList(QDir::Files));
+    QStringListIterator _fileIt(_dir.entryList(QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot));
     while(_fileIt.hasNext())
     {
       QString _file = _fileIt.next();
