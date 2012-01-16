@@ -29,6 +29,7 @@ class Gal;
 
 class NingeGal;
 class QGraphicsScene;
+class QGraphicsRectItem;
 
 class Gal : public QWidget
 {
@@ -64,6 +65,7 @@ private:
   NingeGal *m_pGal;
 
   QGraphicsScene *m_pMainScene;
+  QGraphicsRectItem *m_pTextBackground;
 };
 
 #endif // GAL_H
