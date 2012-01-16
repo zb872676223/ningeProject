@@ -38,7 +38,7 @@ GalTextItem::GalTextItem(QGraphicsItem *parent)
   QVariant _color("#FFFFFF");
   QVariant _weight(75);
   QVariant _size(14);
-  QVariant _font(QString::fromUtf8("黑体"));
+  QVariant _font(QString::fromUtf8("Microsoft YaHei"));
   QSettings _settings("ninge.cfg", QSettings::IniFormat);
   _color = _settings.value("fontColor", _color);
   _settings.setValue("fontColor", _color);

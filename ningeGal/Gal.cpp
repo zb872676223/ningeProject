@@ -41,7 +41,6 @@ Gal::Gal(NingeGal *gal,QWidget *parent) :
 
   // 读取并初始化配置
   QSettings _settings("ninge.cfg", QSettings::IniFormat);
-  _settings.setIniCodec("UTF-8");
   // 设置宽高
   QVariant _width(640);
   QVariant _height(480);
@@ -50,7 +49,7 @@ Gal::Gal(NingeGal *gal,QWidget *parent) :
   _height = _settings.value("height", _height);
   _settings.setValue("height", _height);
   // 设置OpenGL支持
-  QVariant _openGL(true);
+  QVariant _openGL(false);
   _openGL = _settings.value("openGL", _openGL);
   _settings.setValue("openGL", _openGL);
   if(_openGL.toBool())

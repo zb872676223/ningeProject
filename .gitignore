@@ -1,5 +1,6 @@
 output/
-
 *.user
-
 *.rc
+Makefile*
+debug/
+release/
