@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Resource object code
 **
-** Created: Mon Jan 9 14:14:38 2012
-**      by: The Resource Compiler for Qt version 4.7.4
+** Created: Thu Jan 19 20:11:23 2012
+**      by: The Resource Compiler for Qt version 4.8.0
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -10,7 +10,7 @@
 #include <QtCore/qglobal.h>
 
 static const unsigned char qt_resource_data[] = {
-  // /home/ninsun/ningeproject-ninge/ningePlayer/resource/image/ninge.png
+  // /home/ninsun/Project/ninsun-ningeProject/ningePlayer/resource/image/ninge.png
   0x0,0x0,0xe6,0xcf,
   0x89,
   0x50,0x4e,0x47,0xd,0xa,0x1a,0xa,0x0,0x0,0x0,0xd,0x49,0x48,0x44,0x52,0x0,

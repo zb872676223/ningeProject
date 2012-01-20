@@ -22,6 +22,7 @@
 
 #include <QtGui/QGraphicsTextItem>
 #include <QtGui/QTextCharFormat>
+#include <QtGui/QTextBlockFormat>
 
 class QTimerEvent;
 class QTextCursor;
@@ -65,6 +66,7 @@ private:
 
   QTextCursor *m_pTextCursor;
   QTextCharFormat m_textCharFormat;
+  QTextBlockFormat m_textBlockFormat;
 };
 
 #endif // GALTEXTITEM_H

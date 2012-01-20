@@ -60,13 +60,16 @@ int main(int argc, char *argv[])
       exit(-1);
   }
 
-  // 读取并初始化配置
-  QVariant _width(640);
-  QVariant _height(480);
+  // 初始化变量
+  QVariant _width(800);
+  QVariant _height(600);
+  // 打开配置文件
   QSettings _settings("ninge.cfg", QSettings::IniFormat);
+  // 读取配置
   _width = _settings.value("width", _width);
-  _settings.setValue("width", _width);
   _height = _settings.value("height", _height);
+  // 初始化配置
+  _settings.setValue("width", _width);
   _settings.setValue("height", _height);
 
   // 获取主窗口插件, 显示主窗口
