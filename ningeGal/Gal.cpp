@@ -73,16 +73,16 @@ Gal::Gal(NingeGal *gal,QWidget *parent) :
   // 测试加入一些东西
   GalPixmapItem *_item = new GalPixmapItem();
 //  _item->setGif(QString::fromUtf8("E:/IMG/图片/free_llama_running__3_by_MenInASuitcase.gif"));
-  _item->setPixmap(QString::fromUtf8("E:/IMG/图片/moe 121044 ford landscape.jpg"));
-//  _item->setPixmap(QString::fromUtf8("/home/ninsun/wallpaper/moe 182803 landscape zhenlin.jpg"));
+//  _item->setPixmap(QString::fromUtf8("E:/IMG/图片/moe 121044 ford landscape.jpg"));
+  _item->setPixmap(QString::fromUtf8("/home/ninsun/图片/moe 128974 eden landscape wallpaper.jpg"));
   m_pMainScene->addItem(_item);
 
 //  QFile _file(QString::fromUtf8("/home/ninsun/gpl-3.0.txt"));
-  QFile _file(QString::fromUtf8("E:/资料/我的世界不可能这么平凡-删减版.txt"));
+  QFile _file(QString::fromUtf8("/home/ninsun/文档/小说/空之境界+未来福音.txt"));
   _file.open(QFile::ReadOnly);
   GalTextItem *_text = new GalTextItem(m_pTextBackground);
   QTextStream _stream(_file.readAll());
-  _stream.setCodec("GB2312");
+//  _stream.setCodec("GB2312");
   _text->setText(_stream.readAll());
 
   _text->setTextWidth(m_pTextBackground->rect().width());
