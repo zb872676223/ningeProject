@@ -73,6 +73,7 @@ contains(TEMPLATE, "lib") {
 UI_DIR = $$OUTPUT_DIR/build/ui/$$TARGET
 OBJECTS_DIR = $$OUTPUT_DIR/build/obj/$$TARGET
 MOC_DIR = $$OUTPUT_DIR/build/moc/$$TARGET
+RCC_DIR = $$OUTPUT_DIR/build/rcc/$$TARGET
 
 unix:{
   target.path = $$OUTPUT_DIR/bin/ningePlugins
