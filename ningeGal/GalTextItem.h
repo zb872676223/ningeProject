@@ -22,6 +22,7 @@
 
 #include <QtGui/QGraphicsTextItem>
 #include <QtGui/QTextCharFormat>
+#include <QtCore/QString>
 
 class QTimerEvent;
 class QTextCursor;
@@ -42,11 +43,13 @@ public:
 
 public slots:
   void start();
+  void pause();
   void setInterval(int interval);
 
 signals:
+  void started();
+  void paused();
   void finished();
-  void pause();
   void currentPos(int);
 
 private:
@@ -58,6 +61,7 @@ private:
   QString m_text;
   QMap<int, QString> m_effect;
   int m_iIndex;
+  QString::ConstIterator m_textIt;
   int m_dMaxHeight;
 
   static int m_iInterval;

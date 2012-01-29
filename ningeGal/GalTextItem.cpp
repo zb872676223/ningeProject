@@ -65,6 +65,8 @@ void GalTextItem::setText(const QString &text)
   m_text = text;
   m_text.replace("\r\n", "\n");
   m_text.replace("\r", "\n");
+  m_textIt = m_text.constBegin();
+  m_iIndex = 0;
 }
 
 void GalTextItem::setEffect(QString effect)
@@ -92,6 +94,13 @@ void GalTextItem::start()
 {
   killTimer(m_iTimerID);
   m_iTimerID = startTimer(m_iInterval);
+  emit started();
+}
+
+void GalTextItem::pause()
+{
+  killTimer(m_iTimerID);
+  emit paused();
 }
 
 void GalTextItem::timerEvent(QTimerEvent * /*event*/)
@@ -104,12 +113,16 @@ void GalTextItem::timerEvent(QTimerEvent * /*event*/)
 
 bool GalTextItem::processText()
 {
-  if (m_iIndex < m_text.count())
+  if(m_textIt != m_text.end())
+//  if (m_iIndex < m_text.count())
   {
+    // 发送当前位置信号
+    emit currentPos(m_iIndex);
     // 处理效果
     processEffect();
     // 添加下一个字
-    m_pTextCursor->insertText(m_text.at(m_iIndex++));
+//    m_pTextCursor->insertText(m_text.at(m_iIndex++));
+    m_pTextCursor->insertText(*m_textIt);
     // 判断当前是否超过最大高度
     if(document()->size().height() >= m_dMaxHeight)
     {
@@ -121,6 +134,10 @@ bool GalTextItem::processText()
 
       m_pTextCursor->setCharFormat(m_textCharFormat);
     }
+    // 下一个字符
+    m_textIt++;
+    // 当前位置+1
+    m_iIndex++;
     return false;
   }
   else
@@ -132,7 +149,6 @@ bool GalTextItem::processText()
 
 void GalTextItem::processEffect()
 {
-  emit currentPos(m_iIndex);
   QString _effect;
   QString _arg;
   QStringListIterator _effectIt(m_effect.values(m_iIndex));
@@ -157,8 +173,7 @@ void GalTextItem::processEffect()
     }
     else if (_effect.startsWith("pause"))
     {
-      emit pause();
-      killTimer(m_iTimerID);
+      pause();
     }
   }
 }
