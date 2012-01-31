@@ -19,15 +19,17 @@
 
 #include "Main.h"
 #include "ui_Main.h"
+#include "NingeMain.h"
 
 #include <QtCore/QDebug>
 #include <QtGui/QMouseEvent>
 
-Main::Main(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::Main)
+Main::Main(NingeMain *main, QWidget *parent) :
+  QMainWindow(parent),
+  ui(new Ui::Main),
+  m_pMain(main)
 {
-    ui->setupUi(this);
+  ui->setupUi(this);
     ui->menubar->setVisible(false);
 }
 
@@ -65,7 +67,7 @@ QWidget *Main::pluginMainWidget()
     return this;
 }
 
-QObject *Main::pluginInnerObject(const QString &/*name*/)
+QObject *Main::pluginInnerObject(const QString & /*name*/)
 {
     return NULL;
 }
@@ -132,4 +134,9 @@ void Main::on_actionAbout_ninge_triggered()
 void Main::on_actionAbout_Qt_triggered()
 {
   qApp->aboutQt();
+}
+
+void Main::closeEvent(QCloseEvent * /*event*/)
+{
+  m_pMain->postCommand("pluginManager", "quit");
 }

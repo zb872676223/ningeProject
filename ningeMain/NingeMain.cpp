@@ -23,7 +23,7 @@
 #include "NingeMain.h"
 
 NingeMain::NingeMain()
-    :m_pMain(new Main())
+    :m_pMain(new Main(this))
 {
 }
 

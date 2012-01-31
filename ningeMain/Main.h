@@ -27,12 +27,14 @@ namespace Ui {
 class Main;
 }
 
+class NingeMain;
+
 class Main : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit Main(QWidget *parent = 0);
+    explicit Main(NingeMain *main, QWidget *parent = 0);
     ~Main();
 
 public:
@@ -60,8 +62,12 @@ private slots:
 
   void on_actionAbout_Qt_triggered();
 
+protected:
+  virtual void closeEvent(QCloseEvent *event);
+
 private:
     Ui::Main *ui;
+    NingeMain *m_pMain;
 };
 
 #endif // MAIN_H
