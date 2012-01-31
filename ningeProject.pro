@@ -5,7 +5,8 @@ SUBDIRS += \
     ninge \
     ningePlayer \
     ningeMain \
-    ningeGal
+    ningeGal \
+    ningeConsole
 
 
 
