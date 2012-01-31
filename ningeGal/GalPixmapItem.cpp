@@ -46,6 +46,7 @@ void GalPixmapItem::setGif(const QString &url)
   connect(m_pMovie, SIGNAL(frameChanged(int)), this, SLOT(frameChanged(int)));
   connect(m_pMovie, SIGNAL(resized(QSize)), this, SLOT(resized(QSize)));
   m_pMovie->start();
+  setPixmap(m_pMovie->currentPixmap());
 }
 
 void GalPixmapItem::start()

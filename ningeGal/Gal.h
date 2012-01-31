@@ -30,6 +30,8 @@ class Gal;
 class NingeGal;
 class QGraphicsScene;
 class QGraphicsRectItem;
+class GalPixmapItem;
+class GalTextItem;
 
 class Gal : public QWidget
 {
@@ -60,12 +62,19 @@ public:
   void aboutToQuit();
 
 private:
+  void setBackground(const QString &backgroudUrl, const QString &effectUrl);
+  void setText(const QString &textUrl, const QString &effectUrl);
+
+private:
   Ui::Gal *ui;
 
   NingeGal *m_pGal;
 
   QGraphicsScene *m_pMainScene;
+  GalPixmapItem *m_pBackground;
   QGraphicsRectItem *m_pTextBackground;
+  GalTextItem *m_pText;
+  QString m_codec;
 };
 
 #endif // GAL_H

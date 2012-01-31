@@ -24,7 +24,7 @@
 #include <QtCore/QSettings>
 #include <QtCore/QTextCodec>
 
-int GalTextItem::m_iInterval = 100;
+int GalTextItem::m_iInterval = 50;
 
 GalTextItem::GalTextItem(QGraphicsItem *parent)
   : QGraphicsTextItem(parent)
@@ -75,6 +75,7 @@ GalTextItem::GalTextItem(QGraphicsItem *parent)
 
 void GalTextItem::setText(const QString &text)
 {
+  pause();
   m_text = text;
   m_text.replace("\r\n", "\n");
   m_text.replace("\r", "\n");
@@ -82,16 +83,20 @@ void GalTextItem::setText(const QString &text)
   m_iIndex = 0;
 }
 
-void GalTextItem::setEffect(QString effect)
+void GalTextItem::setEffect(const QString &effect)
 {
-  effect.remove('\r').remove('\n');
+  QString _tmp = effect;
+  _tmp.remove('\r').remove('\n');
   m_effect.clear();
   QStringList _effectList;
-  QStringListIterator _effectIt = effect.split("&&&");
+  QStringListIterator _effectIt = _tmp.split("&&&");
   while (_effectIt.hasNext())
   {
     _effectList = _effectIt.next().split("@@@");
-    m_effect.insertMulti(_effectList.value(0).toInt(), _effectList.value(1));
+    if (_effectList.size() == 2)
+    {
+      m_effect.insertMulti(_effectList.value(0).toInt(), _effectList.value(1));
+    }
   }
 }
 
@@ -100,6 +105,7 @@ void GalTextItem::setInterval(int interval)
   if (interval > 0 && interval != m_iInterval)
   {
     m_iInterval = interval;
+    start();
   }
 }
 
@@ -114,6 +120,12 @@ void GalTextItem::pause()
 {
   killTimer(m_iTimerID);
   emit paused();
+}
+
+void GalTextItem::clear()
+{
+  document()->clear();
+  m_pTextCursor->setCharFormat(m_textCharFormat);
 }
 
 void GalTextItem::timerEvent(QTimerEvent * /*event*/)
@@ -139,7 +151,6 @@ bool GalTextItem::processText()
     // 判断当前是否超过最大高度
     if(document()->size().height() >= m_dMaxHeight)
     {
-//      document()->clear();
       m_pTextCursor->movePosition(QTextCursor::Start);
       m_pTextCursor->movePosition(QTextCursor::Down, QTextCursor::KeepAnchor);
       m_pTextCursor->removeSelectedText();

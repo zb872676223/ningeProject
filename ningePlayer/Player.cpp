@@ -160,6 +160,10 @@ QVariant Player::exec(const QString &command, const QList<QVariant> &arguments)
   {
     ui->videoWidget->setVisible(arguments.value(0).toBool());
   }
+  else if (command == "show")
+  {
+    show();
+  }
   else
   {
     return "command not found in ningePlayer";

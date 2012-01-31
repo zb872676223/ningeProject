@@ -55,8 +55,6 @@ public:
   // 插件在退出时应该做的额外操作, 会被插件管理器自动调用
   virtual void aboutToQuit();
 
-  void postCommand(const QString &plugin = QString(), const QString &command = QString() , const QList<QVariant> &arguments = QList<QVariant>());
-
 private:
   Gal *m_pGal;
 };

@@ -37,7 +37,7 @@ public:
 
 public:
   void setText(const QString &text);
-  void setEffect(QString effect);
+  void setEffect(const QString &effect);
 
   int maxRows() { return m_dMaxHeight; }
   void setMaxHeight(qreal val) { m_dMaxHeight = val; }
@@ -45,6 +45,7 @@ public:
 public slots:
   void start();
   void pause();
+  void clear();
   void setInterval(int interval);
 
 signals:
