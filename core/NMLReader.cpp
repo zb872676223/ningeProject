@@ -150,7 +150,7 @@ void NMLReader::doCommand(const QDomElement &command)
 {
   if (command.attribute("type") == "jump")
   {
-    jump(command.attribute("Block"), command.attribute("File"));
+    jump(command.attribute("block"), command.attribute("file"));
   }
   else if (command.attribute("type") == "exec")
   {
@@ -160,7 +160,7 @@ void NMLReader::doCommand(const QDomElement &command)
     QDomNodeList _list = command.elementsByTagName("argument");
     for(int i=0; i<_list.count(); i++)
     {
-      _arguments << _list.at(i).toText().data();
+      _arguments << _list.at(i).toElement().text();
     }
     PluginManager::instance()->sendCommand(_plugin, _command, _arguments);
   }
