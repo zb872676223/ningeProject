@@ -39,7 +39,7 @@ GalTextItem::GalTextItem(QGraphicsItem *parent)
   QVariant _weight(75);
   QVariant _size(14);
   QVariant _font(QString::fromUtf8("Microsoft YaHei"));
-  QVariant _lineHeight(110);
+  QVariant _lineSpaceing(110);
   QVariant _letterSpaceing(100);
   // 打开配置文件
   QSettings _settings("ninge.cfg", QSettings::IniFormat);
@@ -48,14 +48,14 @@ GalTextItem::GalTextItem(QGraphicsItem *parent)
   _weight = _settings.value("fontWeight", _weight);
   _size = _settings.value("fontSize", _size);
   _font = _settings.value("font", _font);
-  _lineHeight = _settings.value("lineHeight", _lineHeight);
+  _lineSpaceing = _settings.value("lineSpaceing", _lineSpaceing);
   _letterSpaceing = _settings.value("letterSpaceing", _letterSpaceing);
   // 初始化配置文件
   _settings.setValue("fontColor", _color);
   _settings.setValue("fontWeight", _weight);
   _settings.setValue("fontSize", _size);
   _settings.setValue("font", _font);
-  _settings.setValue("lineHeight", _lineHeight);
+  _settings.setValue("lineSpaceing", _lineSpaceing);
   _settings.setValue("letterSpaceing", _letterSpaceing);
   //设置字符格式
   m_textCharFormat.setForeground(QBrush(QColor(_color.toString())));
@@ -65,7 +65,7 @@ GalTextItem::GalTextItem(QGraphicsItem *parent)
   m_textCharFormat.setFontLetterSpacing(_letterSpaceing.toReal());
   m_pTextCursor->setCharFormat(m_textCharFormat);
   // 设置段落格式
-  m_textBlockFormat.setLineHeight(_lineHeight.toReal(), QTextBlockFormat::ProportionalHeight);
+  m_textBlockFormat.setLineHeight(_lineSpaceing.toReal(), QTextBlockFormat::ProportionalHeight);
   m_pTextCursor->setBlockFormat(m_textBlockFormat);
   // 设置换行模式
   QTextOption _option;
@@ -126,6 +126,7 @@ void GalTextItem::clear()
 {
   document()->clear();
   m_pTextCursor->setCharFormat(m_textCharFormat);
+  m_pTextCursor->setBlockFormat(m_textBlockFormat);
 }
 
 void GalTextItem::timerEvent(QTimerEvent * /*event*/)
@@ -157,6 +158,7 @@ bool GalTextItem::processText()
       m_pTextCursor->movePosition(QTextCursor::End);
 
       m_pTextCursor->setCharFormat(m_textCharFormat);
+      m_pTextCursor->setBlockFormat(m_textBlockFormat);
     }
     // 下一个字符
     m_textIt++;

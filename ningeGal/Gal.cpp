@@ -39,24 +39,27 @@ Gal::Gal(NingeGal *gal,QWidget *parent) :
 {
   ui->setupUi(this);
 
-  // 读取并初始化配置
-  QSettings _settings("ninge.cfg", QSettings::IniFormat);
-  // 设置宽高
+  // 初始化变量
   QVariant _width(800);
   QVariant _height(600);
-  _width = _settings.value("width", _width);
-  _settings.setValue("width", _width);
-  _height = _settings.value("height", _height);
-  _settings.setValue("height", _height);
-  // 设置OpenGL支持
   QVariant _openGL(false);
+  // 打开配置文件
+  QSettings _settings("ninge.cfg", QSettings::IniFormat);
+  // 读取配置文件
+  _width = _settings.value("width", _width);
+  _height = _settings.value("height", _height);
   _openGL = _settings.value("openGL", _openGL);
+  // 初始化配置文件
+  _settings.setValue("width", _width);
+  _settings.setValue("height", _height);
   _settings.setValue("openGL", _openGL);
+
+  // 设置OpenGL支持
   if(_openGL.toBool())
   {
     ui->graphicsView->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
   }
-  // 设置视图大小
+//  // 设置视图大小
 //  ui->graphicsView->setSceneRect(0, 0, _width.toInt(), _height.toInt());
   // 创建主场景
   m_pMainScene = new QGraphicsScene();
@@ -182,6 +185,7 @@ void Gal::aboutToQuit()
 
 void Gal::setBackground(const QString &backgroudUrl, const QString &effectUrl)
 {
+  m_pBackground->stop();
   if (backgroudUrl.endsWith(".gif"))
   {
     m_pBackground->setGif(backgroudUrl);
