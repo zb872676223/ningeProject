@@ -24,7 +24,7 @@
 #include <QtCore/QSettings>
 #include <QtCore/QTextCodec>
 
-int GalTextItem::m_iInterval = 100;
+int GalTextItem::m_iInterval = 50;
 
 GalTextItem::GalTextItem(QGraphicsItem *parent)
   : QGraphicsTextItem(parent)
@@ -39,7 +39,7 @@ GalTextItem::GalTextItem(QGraphicsItem *parent)
   QVariant _weight(75);
   QVariant _size(14);
   QVariant _font(QString::fromUtf8("Microsoft YaHei"));
-  QVariant _lineHeight(110);
+  QVariant _lineSpaceing(110);
   QVariant _letterSpaceing(100);
   // 打开配置文件
   QSettings _settings("ninge.cfg", QSettings::IniFormat);
@@ -48,14 +48,14 @@ GalTextItem::GalTextItem(QGraphicsItem *parent)
   _weight = _settings.value("fontWeight", _weight);
   _size = _settings.value("fontSize", _size);
   _font = _settings.value("font", _font);
-  _lineHeight = _settings.value("lineHeight", _lineHeight);
+  _lineSpaceing = _settings.value("lineSpaceing", _lineSpaceing);
   _letterSpaceing = _settings.value("letterSpaceing", _letterSpaceing);
   // 初始化配置文件
   _settings.setValue("fontColor", _color);
   _settings.setValue("fontWeight", _weight);
   _settings.setValue("fontSize", _size);
   _settings.setValue("font", _font);
-  _settings.setValue("lineHeight", _lineHeight);
+  _settings.setValue("lineSpaceing", _lineSpaceing);
   _settings.setValue("letterSpaceing", _letterSpaceing);
   //设置字符格式
   m_textCharFormat.setForeground(QBrush(QColor(_color.toString())));
@@ -65,7 +65,7 @@ GalTextItem::GalTextItem(QGraphicsItem *parent)
   m_textCharFormat.setFontLetterSpacing(_letterSpaceing.toReal());
   m_pTextCursor->setCharFormat(m_textCharFormat);
   // 设置段落格式
-  m_textBlockFormat.setLineHeight(_lineHeight.toReal(), QTextBlockFormat::ProportionalHeight);
+  m_textBlockFormat.setLineHeight(_lineSpaceing.toReal(), QTextBlockFormat::ProportionalHeight);
   m_pTextCursor->setBlockFormat(m_textBlockFormat);
   // 设置换行模式
   QTextOption _option;
@@ -75,21 +75,28 @@ GalTextItem::GalTextItem(QGraphicsItem *parent)
 
 void GalTextItem::setText(const QString &text)
 {
+  pause();
   m_text = text;
   m_text.replace("\r\n", "\n");
   m_text.replace("\r", "\n");
+  m_textIt = m_text.constBegin();
+  m_iIndex = 0;
 }
 
-void GalTextItem::setEffect(QString effect)
+void GalTextItem::setEffect(const QString &effect)
 {
-  effect.remove('\r').remove('\n');
+  QString _tmp = effect;
+  _tmp.remove('\r').remove('\n');
   m_effect.clear();
   QStringList _effectList;
-  QStringListIterator _effectIt = effect.split("&&&");
+  QStringListIterator _effectIt = _tmp.split("&&&");
   while (_effectIt.hasNext())
   {
     _effectList = _effectIt.next().split("@@@");
-    m_effect.insertMulti(_effectList.value(0).toInt(), _effectList.value(1));
+    if (_effectList.size() == 2)
+    {
+      m_effect.insertMulti(_effectList.value(0).toInt(), _effectList.value(1));
+    }
   }
 }
 
@@ -98,6 +105,7 @@ void GalTextItem::setInterval(int interval)
   if (interval > 0 && interval != m_iInterval)
   {
     m_iInterval = interval;
+    start();
   }
 }
 
@@ -105,6 +113,20 @@ void GalTextItem::start()
 {
   killTimer(m_iTimerID);
   m_iTimerID = startTimer(m_iInterval);
+  emit started();
+}
+
+void GalTextItem::pause()
+{
+  killTimer(m_iTimerID);
+  emit paused();
+}
+
+void GalTextItem::clear()
+{
+  document()->clear();
+  m_pTextCursor->setCharFormat(m_textCharFormat);
+  m_pTextCursor->setBlockFormat(m_textBlockFormat);
 }
 
 void GalTextItem::timerEvent(QTimerEvent * /*event*/)
@@ -117,23 +139,31 @@ void GalTextItem::timerEvent(QTimerEvent * /*event*/)
 
 bool GalTextItem::processText()
 {
-  if (m_iIndex < m_text.count())
+  if(m_textIt != m_text.end())
+//  if (m_iIndex < m_text.count())
   {
+    // 发送当前位置信号
+    emit currentPos(m_iIndex);
     // 处理效果
     processEffect();
     // 添加下一个字
-    m_pTextCursor->insertText(m_text.at(m_iIndex++));
+//    m_pTextCursor->insertText(m_text.at(m_iIndex++));
+    m_pTextCursor->insertText(*m_textIt);
     // 判断当前是否超过最大高度
     if(document()->size().height() >= m_dMaxHeight)
     {
-//      document()->clear();
       m_pTextCursor->movePosition(QTextCursor::Start);
       m_pTextCursor->movePosition(QTextCursor::Down, QTextCursor::KeepAnchor);
       m_pTextCursor->removeSelectedText();
       m_pTextCursor->movePosition(QTextCursor::End);
 
       m_pTextCursor->setCharFormat(m_textCharFormat);
+      m_pTextCursor->setBlockFormat(m_textBlockFormat);
     }
+    // 下一个字符
+    m_textIt++;
+    // 当前位置+1
+    m_iIndex++;
     return false;
   }
   else
@@ -145,7 +175,6 @@ bool GalTextItem::processText()
 
 void GalTextItem::processEffect()
 {
-  emit currentPos(m_iIndex);
   QString _effect;
   QString _arg;
   QStringListIterator _effectIt(m_effect.values(m_iIndex));
@@ -170,8 +199,7 @@ void GalTextItem::processEffect()
     }
     else if (_effect.startsWith("pause"))
     {
-      emit pause();
-      killTimer(m_iTimerID);
+      pause();
     }
   }
 }

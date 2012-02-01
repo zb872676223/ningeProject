@@ -1,58 +1,48 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2011-10-30T15:35:55
+# Project created by QtCreator 2012-01-30T13:29:36
 #
 #-------------------------------------------------
 
-QT       += phonon
+QT       += gui
 
-TARGET = ningePlayer
+TARGET = ningeConsole
 TEMPLATE = lib
 
-include(../version.pri)
+DEFINES += NINGECONSOLE_LIBRARY
 
-CONFIG += create_prl
+SOURCES += NingeConsole.cpp \
+    Console.cpp
 
-DEFINES += NINGEPLAYER_LIBRARY
-
-SOURCES += NingePlayer.cpp \
-    Player.cpp
-
-HEADERS += NingePlayer.h\
-        ningePlayer_global.h \
-    Player.h \
+HEADERS += NingeConsole.h\
+        ningeConsole_global.h \
+    Console.h \
     ../core/CorePluginInterface.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN
-    TARGET.UID3 = 0xE6C7E5CA
+    TARGET.UID3 = 0xE4B660D0
     TARGET.CAPABILITY =
     TARGET.EPOCALLOWDLLDATA = 1
-    addFiles.sources = ningePlayer.dll
+    addFiles.sources = ningeConsole.dll
     addFiles.path = !:/sys/bin
     DEPLOYMENT += addFiles
 }
 
-#unix:!symbian {
-#    maemo5 {
-#        target.path = /opt/usr/lib
-#    } else {
-#        target.path = /usr/lib
-#    }
-#    INSTALLS += target
-#}
+unix:!symbian {
+    maemo5 {
+        target.path = /opt/usr/lib
+    } else {
+        target.path = /usr/lib
+    }
+    INSTALLS += target
+}
 
 CONFIG(release, debug|release): LIBS += -L$$PWD/../output/release/lib -lcore
 else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../output/debug/lib -lcored
 
 INCLUDEPATH += $$PWD/..
 DEPENDPATH += $$PWD/..
-
-FORMS += \
-    Player.ui
-
-RESOURCES += \
-    ningePlayerRC.qrc
 
 CONFIG(debug, debug|release) {
   OUTPUT_DIR = $$PWD/../output/debug
@@ -78,3 +68,6 @@ unix:{
   target.path = $$OUTPUT_DIR/bin/ningePlugins
   INSTALLS += target
 }
+
+FORMS += \
+    Console.ui

@@ -1,6 +1,6 @@
 /*************************************************************************
  *
- * Copyright (C) 2011 Ninsun, All rights reserved.
+ * Copyright (C) 2012 Ninsun, All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,22 +17,22 @@
  *
  *************************************************************************/
 
-#ifndef NINGEGAL_H
-#define NINGEGAL_H
+#ifndef NINGECONSOLE_H
+#define NINGECONSOLE_H
 
 #include "core/CorePluginInterface.h"
 
-#include "ningeGal_global.h"
+#include "ningeConsole_global.h"
 
-class Gal;
+class Console;
 
-class NINGEGALSHARED_EXPORT NingeGal : public ninge::CorePluginInterface
+class NINGECONSOLESHARED_EXPORT NingeConsole : public ninge::CorePluginInterface
 {
   Q_OBJECT
   Q_INTERFACES(ninge::CorePluginInterface)
 
 public:
-  NingeGal();
+  NingeConsole();
 
   // 需要实现的接口
 public:
@@ -56,7 +56,7 @@ public:
   virtual void aboutToQuit();
 
 private:
-  Gal *m_pGal;
+  Console *m_pConsole;
 };
 
-#endif // NINGEGAL_H
+#endif // NINGECONSOLE_H

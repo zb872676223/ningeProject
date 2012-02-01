@@ -170,6 +170,15 @@ void PluginManager::unloadPlugins()
 
 QVariant PluginManager::sendCommand(const QString &plugin, const QString &command, const QList<QVariant> &arguments)
 {
+  if(plugin == "pluginManager")
+  {
+    if(command == "quit")
+    {
+      exit(0);
+    }
+    return "done";
+  }
+
   CorePluginInterface* _plugin = m_plugins.value(plugin);
   if (_plugin)
   {

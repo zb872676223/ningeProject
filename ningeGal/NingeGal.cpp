@@ -73,9 +73,4 @@ void NingeGal::aboutToQuit()
   m_pGal->aboutToQuit();
 }
 
-void NingeGal::postCommand(const QString &plugin, const QString &command, const QList<QVariant> &arguments)
-{
-  emit sendCommand(plugin, command, arguments);
-}
-
 Q_EXPORT_PLUGIN2 ( ningeGal, NingeGal )

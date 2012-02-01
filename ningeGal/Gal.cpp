@@ -39,28 +39,36 @@ Gal::Gal(NingeGal *gal,QWidget *parent) :
 {
   ui->setupUi(this);
 
-  // 读取并初始化配置
-  QSettings _settings("ninge.cfg", QSettings::IniFormat);
-  // 设置宽高
-  QVariant _width(640);
-  QVariant _height(480);
-  _width = _settings.value("width", _width);
-  _settings.setValue("width", _width);
-  _height = _settings.value("height", _height);
-  _settings.setValue("height", _height);
-  // 设置OpenGL支持
+  // 初始化变量
+  QVariant _width(800);
+  QVariant _height(600);
   QVariant _openGL(false);
+  // 打开配置文件
+  QSettings _settings("ninge.cfg", QSettings::IniFormat);
+  // 读取配置文件
+  _width = _settings.value("width", _width);
+  _height = _settings.value("height", _height);
   _openGL = _settings.value("openGL", _openGL);
+  // 初始化配置文件
+  _settings.setValue("width", _width);
+  _settings.setValue("height", _height);
   _settings.setValue("openGL", _openGL);
+
+  // 设置OpenGL支持
   if(_openGL.toBool())
   {
     ui->graphicsView->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
   }
-  // 设置视图大小
-  ui->graphicsView->setSceneRect(0, 0, _width.toInt(), _height.toInt());
+//  // 设置视图大小
+//  ui->graphicsView->setSceneRect(0, 0, _width.toInt(), _height.toInt());
   // 创建主场景
   m_pMainScene = new QGraphicsScene();
+  m_pMainScene->setSceneRect(0, 0, _width.toInt(), _height.toInt());
   ui->graphicsView->setScene(m_pMainScene);
+  // 创建背景
+  m_pBackground = new GalPixmapItem();
+  m_pBackground->setZValue(-100);
+  m_pMainScene->addItem(m_pBackground);
   // 创建文字背景
   m_pTextBackground = new QGraphicsRectItem();
   m_pTextBackground->setRect(0, 0, _width.toInt()-40, _height.toInt()-40);
@@ -69,26 +77,10 @@ Gal::Gal(NingeGal *gal,QWidget *parent) :
   m_pTextBackground->setPen(QPen(Qt::NoPen));
   m_pTextBackground->setZValue(100);
   m_pMainScene->addItem(m_pTextBackground);
-
-  // 测试加入一些东西
-  GalPixmapItem *_item = new GalPixmapItem();
-//  _item->setGif(QString::fromUtf8("E:/IMG/图片/free_llama_running__3_by_MenInASuitcase.gif"));
-//  _item->setPixmap(QString::fromUtf8("E:/IMG/图片/moe 121044 ford landscape.jpg"));
-  _item->setPixmap(QString::fromUtf8("/home/ninsun/图片/moe 128974 eden landscape wallpaper.jpg"));
-  m_pMainScene->addItem(_item);
-
-//  QFile _file(QString::fromUtf8("/home/ninsun/gpl-3.0.txt"));
-  QFile _file(QString::fromUtf8("/home/ninsun/文档/小说/空之境界+未来福音.txt"));
-  _file.open(QFile::ReadOnly);
-  GalTextItem *_text = new GalTextItem(m_pTextBackground);
-  QTextStream _stream(_file.readAll());
-//  _stream.setCodec("GB2312");
-  _text->setText(_stream.readAll());
-
-  _text->setTextWidth(m_pTextBackground->rect().width());
-  _text->setMaxHeight(m_pTextBackground->rect().height());
-  _text->setInterval(20);
-  _text->start();
+  // 创建文字对象
+  m_pText = new GalTextItem(m_pTextBackground);
+  m_pText->setTextWidth(m_pTextBackground->rect().width());
+  m_pText->setMaxHeight(m_pTextBackground->rect().height());
 }
 
 Gal::~Gal()
@@ -137,11 +129,37 @@ QObject *Gal::pluginInnerObject(const QString &/*name*/)
 
 QVariant Gal::exec(const QString &command, const QList<QVariant> &arguments)
 {
-  if(command == "setText")
+  if(command == "setCodec")
   {
+    m_codec = arguments.value(0).toString();
+  }
+  else if(command == "setText")
+  {
+    setText(arguments.value(0).toString(), arguments.value(1).toString());
+  }
+  else if (command == "setInterval")
+  {
+    m_pText->setInterval(arguments.value(0).toInt());
+  }
+  else if (command == "start")
+  {
+    m_pText->start();
+  }
+  else if (command == "pause")
+  {
+    m_pText->pause();
+  }
+  else if (command == "clear")
+  {
+    m_pText->clear();
+  }
+  else if (command == "showText")
+  {
+    m_pTextBackground->show();
   }
   else if (command == "hideText")
   {
+    m_pTextBackground->hide();
   }
   else if (command == "addImage")
   {
@@ -151,6 +169,7 @@ QVariant Gal::exec(const QString &command, const QList<QVariant> &arguments)
   }
   else if (command == "setBackground")
   {
+    setBackground(arguments.value(0).toString(), arguments.value(1).toString());
   }
   else
   {
@@ -162,4 +181,44 @@ QVariant Gal::exec(const QString &command, const QList<QVariant> &arguments)
 
 void Gal::aboutToQuit()
 {
+}
+
+void Gal::setBackground(const QString &backgroudUrl, const QString &effectUrl)
+{
+  m_pBackground->stop();
+  if (backgroudUrl.endsWith(".gif"))
+  {
+    m_pBackground->setGif(backgroudUrl);
+  }
+  else
+  {
+    m_pBackground->setPixmap(backgroudUrl);
+  }
+  QSizeF _size = m_pMainScene->sceneRect().size() - m_pBackground->pixmap().size();
+
+  m_pBackground->setPos(_size.width()/2, _size.height()/2);
+}
+
+void Gal::setText(const QString &textUrl, const QString &effectUrl)
+{
+  QTextStream _stream;
+
+  QFile _file;
+  _file.setFileName(textUrl);
+  if(_file.open(QFile::ReadOnly))
+  {
+    _stream.setDevice(&_file);
+    _stream.setCodec(m_codec.toLocal8Bit().data());
+    m_pText->setText(_stream.readAll());
+    _file.close();
+
+    _file.setFileName(effectUrl);
+    if(_file.open(QFile::ReadOnly))
+    {
+      _stream.setDevice(&_file);
+      _stream.setCodec(m_codec.toLocal8Bit().data());
+      m_pText->setEffect(_stream.readAll());
+      _file.close();
+    }
+  }
 }

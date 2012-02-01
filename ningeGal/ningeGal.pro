@@ -46,14 +46,14 @@ symbian {
 #    INSTALLS += target
 #}
 
+FORMS += \
+    Gal.ui
+
 CONFIG(release, debug|release): LIBS += -L$$PWD/../output/release/lib -lcore
 else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../output/debug/lib -lcored
 
 INCLUDEPATH += $$PWD/..
 DEPENDPATH += $$PWD/..
-
-FORMS += \
-    Gal.ui
 
 CONFIG(debug, debug|release) {
   OUTPUT_DIR = $$PWD/../output/debug
@@ -73,6 +73,7 @@ contains(TEMPLATE, "lib") {
 UI_DIR = $$OUTPUT_DIR/build/ui/$$TARGET
 OBJECTS_DIR = $$OUTPUT_DIR/build/obj/$$TARGET
 MOC_DIR = $$OUTPUT_DIR/build/moc/$$TARGET
+RCC_DIR = $$OUTPUT_DIR/build/rcc/$$TARGET
 
 unix:{
   target.path = $$OUTPUT_DIR/bin/ningePlugins
