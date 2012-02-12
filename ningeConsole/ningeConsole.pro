@@ -9,6 +9,8 @@ QT       += gui
 TARGET = ningeConsole
 TEMPLATE = lib
 
+include(../version.pri)
+
 DEFINES += NINGECONSOLE_LIBRARY
 
 SOURCES += NingeConsole.cpp \
