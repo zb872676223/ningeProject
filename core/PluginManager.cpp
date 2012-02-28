@@ -170,11 +170,11 @@ void PluginManager::unloadPlugins()
 
 QVariant PluginManager::sendCommand(const QString &plugin, const QString &command, const QList<QVariant> &arguments)
 {
-  if(plugin == "pluginManager")
+  if(plugin == "PluginManager")
   {
-    if(command == "quit")
+    if(command == "quit" || command == "exit")
     {
-      exit(0);
+      exit(arguments.value(0).toInt());
     }
     return "done";
   }
