@@ -27,9 +27,12 @@
 #include "GalPixmapItem.h"
 #include "GalTextItem.h"
 
+#include <core/GlobalSetting.h>
+
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtGui/QGraphicsDropShadowEffect>
+#include <QtGui/QMouseEvent>
 #include <QtOpenGL/QGLWidget>
 
 Gal::Gal(NingeGal *gal,QWidget *parent) :
@@ -38,21 +41,12 @@ Gal::Gal(NingeGal *gal,QWidget *parent) :
   m_pGal(gal)
 {
   ui->setupUi(this);
-
-  // 初始化变量
-  QVariant _width(800);
-  QVariant _height(600);
-  QVariant _openGL(false);
   // 打开配置文件
-  QSettings _settings("ninge.cfg", QSettings::IniFormat);
+  GlobalSetting _settings;
   // 读取配置文件
-  _width = _settings.value("width", _width);
-  _height = _settings.value("height", _height);
-  _openGL = _settings.value("openGL", _openGL);
-  // 初始化配置文件
-  _settings.setValue("width", _width);
-  _settings.setValue("height", _height);
-  _settings.setValue("openGL", _openGL);
+  QVariant _width = _settings.value("width", 800);
+  QVariant _height = _settings.value("height", 600);
+  QVariant _openGL = _settings.value("openGL", false);
 
   // 设置OpenGL支持
   if(_openGL.toBool())
@@ -181,6 +175,29 @@ QVariant Gal::exec(const QString &command, const QList<QVariant> &arguments)
 
 void Gal::aboutToQuit()
 {
+}
+
+void Gal::mousePressEvent(QMouseEvent *event)
+{
+  if(event->button() == Qt::LeftButton)
+  {
+    switch(m_pText->state())
+    {
+    case -1:
+      break;
+    case 0:
+      m_pText->start();
+      break;
+    case 1:
+      m_pText->pause();
+      break;
+    case 2:
+      m_pText->start();
+      break;
+    default:
+      break;
+    }
+  }
 }
 
 void Gal::setBackground(const QString &backgroudUrl, const QString &effectUrl)

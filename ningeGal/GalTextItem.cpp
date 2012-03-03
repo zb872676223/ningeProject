@@ -18,6 +18,7 @@
  *************************************************************************/
 
 #include "GalTextItem.h"
+#include "core/GlobalSetting.h"
 
 #include <QtGui/QTextCursor>
 #include <QtGui/QTextDocument>
@@ -31,32 +32,19 @@ GalTextItem::GalTextItem(QGraphicsItem *parent)
   , m_iIndex(0)
   , m_dMaxHeight(100)
   , m_iTimerID(0)
+  , m_iState(-1)
 {
   m_pTextCursor = new QTextCursor(document());
 
-  // 初始化变量
-  QVariant _color("#FFFFFF");
-  QVariant _weight(75);
-  QVariant _size(14);
-  QVariant _font(QString::fromUtf8("Microsoft YaHei"));
-  QVariant _lineSpaceing(110);
-  QVariant _letterSpaceing(100);
   // 打开配置文件
-  QSettings _settings("ninge.cfg", QSettings::IniFormat);
+  GlobalSetting _settings;
   // 读取配置文件
-  _color = _settings.value("fontColor", _color);
-  _weight = _settings.value("fontWeight", _weight);
-  _size = _settings.value("fontSize", _size);
-  _font = _settings.value("font", _font);
-  _lineSpaceing = _settings.value("lineSpaceing", _lineSpaceing);
-  _letterSpaceing = _settings.value("letterSpaceing", _letterSpaceing);
-  // 初始化配置文件
-  _settings.setValue("fontColor", _color);
-  _settings.setValue("fontWeight", _weight);
-  _settings.setValue("fontSize", _size);
-  _settings.setValue("font", _font);
-  _settings.setValue("lineSpaceing", _lineSpaceing);
-  _settings.setValue("letterSpaceing", _letterSpaceing);
+  QVariant _color = _settings.value("fontColor", "#FFFFFF");
+  QVariant _weight = _settings.value("fontWeight", 75);
+  QVariant _size = _settings.value("fontSize", 14);
+  QVariant _font = _settings.value("font", QString::fromUtf8("Microsoft YaHei"));
+  QVariant _lineSpaceing = _settings.value("lineSpaceing", 110);
+  QVariant _letterSpaceing = _settings.value("letterSpaceing", 100);
   //设置字符格式
   m_textCharFormat.setForeground(QBrush(QColor(_color.toString())));
   m_textCharFormat.setFontWeight(_weight.toInt());
@@ -81,6 +69,7 @@ void GalTextItem::setText(const QString &text)
   m_text.replace("\r", "\n");
   m_textIt = m_text.constBegin();
   m_iIndex = 0;
+  m_iState = 0;
 }
 
 void GalTextItem::setEffect(const QString &effect)
@@ -113,12 +102,14 @@ void GalTextItem::start()
 {
   killTimer(m_iTimerID);
   m_iTimerID = startTimer(m_iInterval);
+  m_iState = 1;
   emit started();
 }
 
 void GalTextItem::pause()
 {
   killTimer(m_iTimerID);
+  m_iState = 2;
   emit paused();
 }
 
@@ -168,6 +159,7 @@ bool GalTextItem::processText()
   }
   else
   {
+    m_iState = -1;
     emit finished();
     return true;
   }

@@ -32,6 +32,7 @@ class QGraphicsScene;
 class QGraphicsRectItem;
 class GalPixmapItem;
 class GalTextItem;
+class QMouseEvent;
 
 class Gal : public QWidget
 {
@@ -60,6 +61,9 @@ public:
   QVariant exec(const QString &command = QString(), const QList<QVariant> &arguments = QList<QVariant>());
   // 插件在退出时应该做的额外操作, 会被插件管理器自动调用
   void aboutToQuit();
+
+protected:
+  virtual void mousePressEvent(QMouseEvent *event);
 
 private:
   void setBackground(const QString &backgroudUrl, const QString &effectUrl);

@@ -138,5 +138,5 @@ void Main::on_actionAbout_Qt_triggered()
 
 void Main::closeEvent(QCloseEvent * /*event*/)
 {
-  m_pMain->postCommand("pluginManager", "quit");
+  m_pMain->postCommand("PluginManager", "exit");
 }
