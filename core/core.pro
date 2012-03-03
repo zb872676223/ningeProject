@@ -17,13 +17,15 @@ DEFINES += CORE_LIBRARY
 
 SOURCES += Core.cpp \
     PluginManager.cpp \
-    NMLReader.cpp
+    NMLReader.cpp \
+    GlobalSetting.cpp
 
 HEADERS += Core.h\
         core_global.h \
     PluginManager.h \
     CorePluginInterface.h \
-    NMLReader.h
+    NMLReader.h \
+    GlobalSetting.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN

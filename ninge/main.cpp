@@ -27,6 +27,7 @@
 #include "core/Core.h"
 #include "core/CorePluginInterface.h"
 #include "core/PluginManager.h"
+#include "core/GlobalSetting.h"
 
 int main(int argc, char *argv[])
 {
@@ -46,6 +47,12 @@ int main(int argc, char *argv[])
   myappTranslator.load("ninge_" + QLocale::system().name(), ":/res/translations");
   a.installTranslator(&myappTranslator);
 
+  // 打开配置文件
+  GlobalSetting _settings;
+  // 读取配置
+  QVariant _width = _settings.value("width", 800);
+  QVariant _height = _settings.value("height", 600);
+
   // 获取插件管理器对象, 载入插件
   ninge::PluginManager *_pluginManager = Core::getPluginManager();
   if (_pluginManager)
@@ -59,18 +66,6 @@ int main(int argc, char *argv[])
                             QObject::tr("Can't load plugin manager.\nProgram is going to exit."));
       exit(-1);
   }
-
-  // 初始化变量
-  QVariant _width(800);
-  QVariant _height(600);
-  // 打开配置文件
-  QSettings _settings("ninge.cfg", QSettings::IniFormat);
-  // 读取配置
-  _width = _settings.value("width", _width);
-  _height = _settings.value("height", _height);
-  // 初始化配置
-  _settings.setValue("width", _width);
-  _settings.setValue("height", _height);
 
   // 获取主窗口插件, 显示主窗口
   ninge::CorePluginInterface *_ningeMain = _pluginManager->getPlugin("ningeMain");

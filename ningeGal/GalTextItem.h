@@ -42,6 +42,8 @@ public:
   int maxRows() { return m_dMaxHeight; }
   void setMaxHeight(qreal val) { m_dMaxHeight = val; }
 
+  int state() { return m_iState; }
+
 public slots:
   void start();
   void pause();
@@ -68,6 +70,8 @@ private:
 
   static int m_iInterval;
   int m_iTimerID;
+
+  int m_iState;
 
   QTextCursor *m_pTextCursor;
   QTextCharFormat m_textCharFormat;
