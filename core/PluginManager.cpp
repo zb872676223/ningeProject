@@ -55,7 +55,7 @@ PluginManager::~PluginManager()
   unloadPlugins();
 }
 
-void PluginManager::loadPlugins()
+void PluginManager::loadPlugins(const QString &dir)
 {
   // 首先清除可能存在的插件
   unloadPlugins();
@@ -64,7 +64,7 @@ void PluginManager::loadPlugins()
   QStringList _searchPaths;
   // 添加默认查找目录"ningePlugins"
   QDir _path(qApp->applicationDirPath());
-  _path.cd("ningePlugins");
+  _path.cd(dir);
   _searchPaths << _path.absolutePath();
   // 开始搜索并记录全部插件的路径
   while(!_searchPaths.isEmpty())

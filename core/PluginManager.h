@@ -44,7 +44,7 @@ namespace ninge
 
   public:
     // 载入指定目录下的插件(默认加载ningePlugins目录)
-    void loadPlugins();
+    void loadPlugins(const QString &dir="ningePlugins");
     // 卸载全部插件
     void unloadPlugins();
     // 根据插件名称得到相应的插件
