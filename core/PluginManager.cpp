@@ -47,7 +47,7 @@ PluginManager * PluginManager::instance()
 PluginManager::PluginManager(QObject *parent) :
   QObject(parent)
 {
-  m_illegalPluginNameList << "PluginManager" << "NingeMLReader";
+  m_illegalPluginNameList << "PLUGINMANAGER" << "NINGEMLREADER";
 }
 
 PluginManager::~PluginManager()
@@ -103,7 +103,7 @@ void PluginManager::loadPlugins(const QString &dir)
     if(CorePluginInterface *_plugin = qobject_cast<CorePluginInterface *>(_loader.instance()))
     {
       // 判断插件名字是否合法
-      if (m_illegalPluginNameList.contains(_plugin->pluginName()))
+      if (m_illegalPluginNameList.contains(_plugin->pluginName().toUpper()))
       {
         // 存在非法名称插件, 报告问题
         qWarning() << QObject::tr("[%1] illegal plguin name: %2")
