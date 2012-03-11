@@ -18,23 +18,35 @@
  *************************************************************************/
 
 #include "GlobalSetting.h"
+#include <QtCore/QSettings>
+#include <QtCore/QDir>
+#include <QtCore/QFileInfo>
+#include <QtCore/QCoreApplication>
 
 GlobalSetting::GlobalSetting()
-  : m_setting("./ninge.cfg", QSettings::IniFormat)
 {
+  QFileInfo _fileInfo(QCoreApplication::applicationFilePath());
+  QDir _dir(QCoreApplication::applicationDirPath());
+  QString _settingFileName = _dir.absoluteFilePath(_fileInfo.completeBaseName()+".cfg");
+  m_pSetting = new QSettings(_settingFileName, QSettings::IniFormat);
+}
+
+GlobalSetting::~GlobalSetting()
+{
+  delete m_pSetting;
 }
 
 QVariant GlobalSetting::value(const QString &key, const QVariant &val)
 {
-  if (!m_setting.contains(key))
+  if (!m_pSetting->contains(key))
   {
-    m_setting.setValue(key, val);
+    m_pSetting->setValue(key, val);
   }
 
-  return m_setting.value(key);
+  return m_pSetting->value(key);
 }
 
 void GlobalSetting::setValue(const QString &key, const QVariant &val)
 {
-  m_setting.setValue(key, val);
+  m_pSetting->setValue(key, val);
 }

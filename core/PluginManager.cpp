@@ -114,7 +114,7 @@ void PluginManager::loadPlugins(const QString &dir)
         continue;
       }
       // 判断是否拥有同名插件
-      if(m_plugins.value(_plugin->pluginName()))
+      if(m_plugins.value(_plugin->pluginName().toUpper()))
       {
         // 存在同名插件, 报告问题
         qWarning() << QObject::tr("[%1] find loaded plugin with same name, this plugin will not be loaded")
@@ -124,7 +124,7 @@ void PluginManager::loadPlugins(const QString &dir)
         continue;
       }
       // 将插件放入插件表
-      m_plugins.insert(_plugin->pluginName(), _plugin);
+      m_plugins.insert(_plugin->pluginName().toUpper(), _plugin);
       // 连接命令发送槽(插件使用这个信号向插件管理器发送命令)
       connect(_plugin, SIGNAL(sendCommand(QString, QString, QList<QVariant>)),
               this, SLOT(sendCommand(QString, QString, QList<QVariant>)));
@@ -151,7 +151,7 @@ void PluginManager::loadPlugins(const QString &dir)
 
 CorePluginInterface * PluginManager::getPlugin(const QString &pluginName)
 {
-  return m_plugins.value(pluginName);
+  return m_plugins.value(pluginName.toUpper());
 }
 
 void PluginManager::unloadPlugins()
@@ -170,7 +170,7 @@ void PluginManager::unloadPlugins()
 
 QVariant PluginManager::sendCommand(const QString &plugin, const QString &command, const QList<QVariant> &arguments)
 {
-  if(plugin == "PluginManager")
+  if(plugin.toUpper() == "PLUGINMANAGER")
   {
     if(command == "quit" || command == "exit")
     {
@@ -179,7 +179,7 @@ QVariant PluginManager::sendCommand(const QString &plugin, const QString &comman
     return "done";
   }
 
-  CorePluginInterface* _plugin = m_plugins.value(plugin);
+  CorePluginInterface* _plugin = m_plugins.value(plugin.toUpper());
   if (_plugin)
   {
     return _plugin->exec(command, arguments);

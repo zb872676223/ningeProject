@@ -20,22 +20,24 @@
 #ifndef GLOBALSETTING_H
 #define GLOBALSETTING_H
 
-#include <QtCore/QSettings>
 #include <QtCore/QVariant>
 
 #include "core_global.h"
+
+class QSettings;
 
 class CORESHARED_EXPORT GlobalSetting
 {
 public:
   GlobalSetting();
+  ~GlobalSetting();
 
 public:
   QVariant value(const QString &key, const QVariant &val=QVariant());
   void setValue(const QString &key, const QVariant &val);
 
 private:
-  QSettings m_setting;
+  QSettings *m_pSetting;
 };
 
 #endif // GLOBALSETTING_H
