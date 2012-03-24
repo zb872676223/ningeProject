@@ -200,7 +200,7 @@ void Gal::mousePressEvent(QMouseEvent *event)
   }
 }
 
-void Gal::setBackground(const QString &backgroudUrl, const QString &effectUrl)
+void Gal::setBackground(const QString &backgroudUrl, const QString &/*effectUrl*/)
 {
   m_pBackground->stop();
   if (backgroudUrl.endsWith(".gif"))

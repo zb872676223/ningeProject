@@ -27,25 +27,6 @@ HEADERS += Core.h\
     NMLReader.h \
     GlobalSetting.h
 
-symbian {
-    MMP_RULES += EXPORTUNFROZEN
-    TARGET.UID3 = 0xE6C79BF2
-    TARGET.CAPABILITY =
-    TARGET.EPOCALLOWDLLDATA = 1
-    addFiles.sources = core.dll
-    addFiles.path = !:/sys/bin
-    DEPLOYMENT += addFiles
-}
-
-#unix:!symbian {
-#    maemo5 {
-#        target.path = /opt/usr/lib
-#    } else {
-#        target.path = /usr/lib
-#    }
-#    INSTALLS += target
-#}
-
 CONFIG(debug, debug|release) {
   OUTPUT_DIR = $$PWD/../output/debug
   message(debug: $$OUTPUT_DIR)

@@ -64,12 +64,12 @@ QWidget *Console::pluginMainWidget()
   return this;
 }
 
-QObject *Console::pluginInnerObject(const QString &name)
+QObject *Console::pluginInnerObject(const QString &/*name*/)
 {
   return NULL;
 }
 
-QVariant Console::exec(const QString &command, const QList<QVariant> &arguments)
+QVariant Console::exec(const QString &/*command*/, const QList<QVariant> &/*arguments*/)
 {
   return "command not found in ningeConsole";
 }
