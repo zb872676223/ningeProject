@@ -23,30 +23,34 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QCoreApplication>
 
-GlobalSetting::GlobalSetting()
+GlobalSetting::GlobalSetting(const QString &fileName)
 {
-  QFileInfo _fileInfo(QCoreApplication::applicationFilePath());
-  QDir _dir(QCoreApplication::applicationDirPath());
-  QString _settingFileName = _dir.absoluteFilePath(_fileInfo.completeBaseName()+".cfg");
-  m_pSetting = new QSettings(_settingFileName, QSettings::IniFormat);
+    QString _settingFileName = fileName;
+    if(_settingFileName.isEmpty())
+    {
+        QFileInfo _fileInfo(QCoreApplication::applicationFilePath());
+        QDir _dir(QCoreApplication::applicationDirPath());
+        _settingFileName = _dir.absoluteFilePath(_fileInfo.completeBaseName()+".cfg");
+    }
+    m_pSetting = new QSettings(_settingFileName, QSettings::IniFormat);
 }
 
 GlobalSetting::~GlobalSetting()
 {
-  delete m_pSetting;
+    delete m_pSetting;
 }
 
 QVariant GlobalSetting::value(const QString &key, const QVariant &val)
 {
-  if (!m_pSetting->contains(key))
-  {
-    m_pSetting->setValue(key, val);
-  }
+    if (!m_pSetting->contains(key))
+    {
+        m_pSetting->setValue(key, val);
+    }
 
-  return m_pSetting->value(key);
+    return m_pSetting->value(key);
 }
 
 void GlobalSetting::setValue(const QString &key, const QVariant &val)
 {
-  m_pSetting->setValue(key, val);
+    m_pSetting->setValue(key, val);
 }

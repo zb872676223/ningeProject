@@ -77,6 +77,10 @@ private slots:
 
   void openFile();
 
+  void on_Player_customContextMenuRequested(const QPoint &pos);
+
+  void on_action_Show_Control_triggered(bool checked);
+
 private:
   void play(const QString &url);
 

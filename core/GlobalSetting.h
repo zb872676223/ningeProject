@@ -29,15 +29,15 @@ class QSettings;
 class CORESHARED_EXPORT GlobalSetting
 {
 public:
-  GlobalSetting();
-  ~GlobalSetting();
+    GlobalSetting(const QString &fileName=QString());
+    ~GlobalSetting();
 
 public:
-  QVariant value(const QString &key, const QVariant &val=QVariant());
-  void setValue(const QString &key, const QVariant &val);
+    QVariant value(const QString &key, const QVariant &val=QVariant());
+    void setValue(const QString &key, const QVariant &val);
 
 private:
-  QSettings *m_pSetting;
+    QSettings *m_pSetting;
 };
 
 #endif // GLOBALSETTING_H
