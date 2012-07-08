@@ -22,6 +22,8 @@
 
 #include <QtCore/QVariant>
 #include <QtGui/QWidget>
+#include <QtGui/QSystemTrayIcon>
+#include <QtGui/QMenu>
 
 namespace Ui {
 class Console;
@@ -31,41 +33,52 @@ class NingeConsole;
 
 class Console : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit Console(NingeConsole *console, QWidget *parent = 0);
-  ~Console();
+    explicit Console(NingeConsole *console, QWidget *parent = 0);
+    ~Console();
 
 public:
-  // 初始化方法, 会被插件管理器自动调用
-  void init();
-  // 获取插件的名称, 插件管理器根据插件名称获取插件对象指针
-  QString pluginName();
-  // 获取插件的版本号
-  QString pluginVersion();
-  // 获取插件详情
-  QString pluginDetail();
-  // 获取插件的设置界面, 如果插件没有可视化配置界面，则应该返回一个空指针
-  QWidget* pluginSettingWidget();
-  // 获取插件的主界面，如果插件没有可视化主界面，则应该返回一个空指针
-  QWidget* pluginMainWidget();
-  // 根据name获取一个插件的内含QObject对象, 如果没有当前名字的对象，则应返回一个空指针
-  QObject* pluginInnerObject(const QString &name);
-  // 执行一条命令, 接受一个参数列表, 返回一个返回值
-  QVariant exec(const QString &command = QString(), const QList<QVariant> &arguments = QList<QVariant>());
-  // 插件在退出时应该做的额外操作, 会被插件管理器自动调用
-  void aboutToQuit();
+    // 初始化方法, 会被插件管理器自动调用
+    void init();
+    // 获取插件的名称, 插件管理器根据插件名称获取插件对象指针
+    QString pluginName();
+    // 获取插件的版本号
+    QString pluginVersion();
+    // 获取插件详情
+    QString pluginDetail();
+    // 获取插件的设置界面, 如果插件没有可视化配置界面，则应该返回一个空指针
+    QWidget* pluginSettingWidget();
+    // 获取插件的主界面，如果插件没有可视化主界面，则应该返回一个空指针
+    QWidget* pluginMainWidget();
+    // 根据name获取一个插件的内含QObject对象, 如果没有当前名字的对象，则应返回一个空指针
+    QObject* pluginInnerObject(const QString &name);
+    // 执行一条命令, 接受一个参数列表, 返回一个返回值
+    QVariant exec(const QString &command = QString(), const QList<QVariant> &arguments = QList<QVariant>());
+    // 插件在退出时应该做的额外操作, 会被插件管理器自动调用
+    void aboutToQuit();
 
 private slots:
-  void on_post_clicked();
+    void on_post_clicked();
 
-  void on_clear_clicked();
+    void on_clear_clicked();
+
+    void activated(QSystemTrayIcon::ActivationReason reason);
+
+    void exitNinge();
+
+protected:
+    void closeEvent(QCloseEvent *event);
 
 private:
-  Ui::Console *ui;
+    Ui::Console *ui;
 
-  NingeConsole *m_pConsole;
+    NingeConsole *m_pConsole;
+
+    QSystemTrayIcon *m_pSystemTrayIcon;
+
+    QMenu m_menu;
 };
 
 #endif // CONSOLE_H

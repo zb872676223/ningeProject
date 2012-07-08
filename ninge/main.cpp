@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
       QList<QVariant> _args;
       _args << QSize(_width.toInt(), _height.toInt());
       _ningeMain->exec("resize", _args);
-      _ningeMain->pluginMainWidget()->show();
+//      _ningeMain->pluginMainWidget()->show();
   }
   else
   {

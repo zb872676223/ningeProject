@@ -73,3 +73,6 @@ unix:{
 
 FORMS += \
     Console.ui
+
+RESOURCES += \
+    ningeConsole.qrc

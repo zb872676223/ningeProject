@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/ningeConsole">
+        <file>resource/image/ninge-logo-32.png</file>
+        <file>resource/image/close.png</file>
+    </qresource>
+</RCC>

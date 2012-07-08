@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>334</width>
-    <height>293</height>
+    <width>337</width>
+    <height>306</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -63,7 +63,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
+   <item row="3" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <spacer name="horizontalSpacer">
@@ -81,7 +81,7 @@
      <item>
       <widget class="QPushButton" name="clear">
        <property name="text">
-        <string>clear</string>
+        <string>&amp;Clear</string>
        </property>
       </widget>
      </item>
@@ -94,7 +94,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>post</string>
+        <string>&amp;Post</string>
        </property>
       </widget>
      </item>

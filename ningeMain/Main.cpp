@@ -114,6 +114,10 @@ QVariant Main::exec(const QString &command, const QList<QVariant> &arguments)
         setMaximumSize(_size);
       }
     }
+    else if(command == "show")
+    {
+        show();
+    }
     else
     {
       return "command not found in ningeMain";
@@ -138,5 +142,5 @@ void Main::on_actionAbout_Qt_triggered()
 
 void Main::closeEvent(QCloseEvent * /*event*/)
 {
-  m_pMain->postCommand("PluginManager", "exit");
+//  m_pMain->postCommand("PluginManager", "exit");
 }

@@ -69,6 +69,7 @@ Player::Player(NingePlayer *player, QWidget *parent) :
 
     m_menu.setTitle(tr("&Player"));
     m_menu.addAction(tr("&Open File..."), this, SLOT(openFile()));
+    m_menu.addSeparator();
     m_menu.addAction(ui->action_Show_Control);
 
     ui->controlWidget->setVisible(false);
@@ -81,15 +82,15 @@ Player::~Player()
 
 void Player::init()
 {
-    //  QList<QVariant> _args;
+//      QList<QVariant> _args;
 
-    //  _args.clear();
-    //  _args << QVariant::fromValue<QObject *>(&m_menu);
-    //  m_pPlayer->postCommand("ningeMain", "addMenu", _args);
+//      _args.clear();
+//      _args << QVariant::fromValue<QObject *>(&m_menu);
+//      m_pPlayer->postCommand("ningeMain", "addMenu", _args);
 
-    //  _args.clear();
-    //  _args << QVariant::fromValue<QObject *>(this) << "center";
-    //  m_pPlayer->postCommand("ningeMain", "addWidget", _args);
+//      _args.clear();
+//      _args << QVariant::fromValue<QObject *>(this) << "center";
+//      m_pPlayer->postCommand("ningeMain", "addWidget", _args);
 }
 
 QString Player::pluginName()
