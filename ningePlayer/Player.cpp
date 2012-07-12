@@ -56,7 +56,7 @@ Player::Player(NingePlayer *player, QWidget *parent) :
             this, SLOT(totalTimeChanged(qint64)));
 
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(on_Player_customContextMenuRequested(QPoint)));
+            this, SLOT(onPlayerCustomContextMenuRequested(QPoint)));
 
     m_iconPlay = style()->standardIcon(QStyle::SP_MediaPlay);
     m_iconPause = style()->standardIcon(QStyle::SP_MediaPause);
@@ -326,7 +326,7 @@ void Player::totalTimeChanged(qint64 newTotalTime)
     tick(0);
 }
 
-void Player::on_Player_customContextMenuRequested(const QPoint &pos)
+void Player::onPlayerCustomContextMenuRequested(const QPoint &pos)
 {
     m_menu.popup(QCursor::pos());
 }

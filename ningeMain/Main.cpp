@@ -20,6 +20,7 @@
 #include "Main.h"
 #include "ui_Main.h"
 #include "NingeMain.h"
+#include "core/GlobalSetting.h"
 
 #include <QtCore/QDebug>
 #include <QtGui/QMouseEvent>
@@ -40,6 +41,12 @@ Main::~Main()
 
 void Main::init()
 {
+    // 打开配置文件
+    GlobalSetting _settings;
+    // 读取配置
+    QVariant _width = _settings.value("width", 800);
+    QVariant _height = _settings.value("height", 600);
+    setFixedSize(_width.toInt(), _height.toInt());
 }
 
 QString Main::pluginName()
@@ -107,11 +114,12 @@ QVariant Main::exec(const QString &command, const QList<QVariant> &arguments)
       QSize _size = arguments.value(0).toSize();
       if(_size.isValid() && !_size.isEmpty())
       {
-        setMinimumSize(0, 0);
-        setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-        resize(_size);
-        setMinimumSize(_size);
-        setMaximumSize(_size);
+//        setMinimumSize(0, 0);
+//        setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+//        resize(_size);
+//        setMinimumSize(_size);
+//        setMaximumSize(_size);
+        setFixedSize(_size);
       }
     }
     else if(command == "show")

@@ -31,58 +31,59 @@
 
 int main(int argc, char *argv[])
 {
-  // 设置程序样式
-  QApplication::setStyle("cleanlooks");
+    // 设置程序样式
+    //    QApplication::setStyle("cleanlooks");
 
-  QApplication a(argc, argv);
-  a.setApplicationName("ninge");
+    QApplication _application(argc, argv);
+    _application.setApplicationName("ninge");
 
-  // 翻译Qt库
-  QTranslator qtTranslator;
-  qtTranslator.load("qt_" + QLocale::system().name(), ":/res/translations");
-  a.installTranslator(&qtTranslator);
+    // 翻译Qt库
+    QTranslator qtTranslator;
+    qtTranslator.load("qt_" + QLocale::system().name(), ":/res/translations");
+    _application.installTranslator(&qtTranslator);
 
-  // 翻译程序
-  QTranslator myappTranslator;
-  myappTranslator.load("ninge_" + QLocale::system().name(), ":/res/translations");
-  a.installTranslator(&myappTranslator);
+    // 翻译程序
+    QTranslator myappTranslator;
+    myappTranslator.load("ninge_" + QLocale::system().name(), ":/res/translations");
+    _application.installTranslator(&myappTranslator);
 
-  // 打开配置文件
-  GlobalSetting _settings;
-  // 读取配置
-  QVariant _width = _settings.value("width", 800);
-  QVariant _height = _settings.value("height", 600);
+    //  // 打开配置文件
+    //  GlobalSetting _settings;
+    //  // 读取配置
+    //  QVariant _width = _settings.value("width", 800);
+    //  QVariant _height = _settings.value("height", 600);
 
-  // 获取插件管理器对象, 载入插件
-  ninge::PluginManager *_pluginManager = Core::getPluginManager();
-  if (_pluginManager)
-  {
-      _pluginManager->loadPlugins();
-  }
-  else
-  {
-      QMessageBox::critical(NULL,
-                            QObject::tr("Error"),
-                            QObject::tr("Can't load plugin manager.\nProgram is going to exit."));
-      exit(-1);
-  }
+    // 获取插件管理器对象, 载入插件
+    ninge::PluginManager *_pluginManager = Core::getPluginManager();
+    if (_pluginManager)
+    {
+        _pluginManager->loadPlugins();
+    }
+    else
+    {
+        QMessageBox::critical(NULL,
+                              QObject::tr("Error"),
+                              QObject::tr("Can't load plugin manager.\nProgram is going to exit."));
+        exit(-1);
+    }
 
-  // 获取主窗口插件, 显示主窗口
-  ninge::CorePluginInterface *_ningeMain = _pluginManager->getPlugin("ningeMain");
-  if (_ningeMain)
-  {
-      QList<QVariant> _args;
-      _args << QSize(_width.toInt(), _height.toInt());
-      _ningeMain->exec("resize", _args);
-//      _ningeMain->pluginMainWidget()->show();
-  }
-  else
-  {
-      QMessageBox::critical(NULL,
-                            QObject::tr("Error"),
-                            QObject::tr("Can't load main window.\nProgram is going to exit."));
-      exit(-2);
-  }
+    //  // 获取主窗口插件, 显示主窗口
+    //  ninge::CorePluginInterface *_ningeMain = _pluginManager->getPlugin("ningeMain");
+    //  if (_ningeMain)
+    //  {
+    //      QList<QVariant> _args;
+    //      _args << QSize(_width.toInt(), _height.toInt());
+    //      _ningeMain->exec("resize", _args);
+    //      _ningeMain->pluginMainWidget()->show();
+    //  }
+    //  else
+    //  {
+    //      QMessageBox::critical(NULL,
+    //                            QObject::tr("Error"),
+    //                            QObject::tr("Can't load main window.\nProgram is going to exit."));
+    //      exit(-2);
+    //  }
 
-  return a.exec();
+    _application.setQuitOnLastWindowClosed(false);
+    return _application.exec();
 }
