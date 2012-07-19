@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       -= gui
+QT += network
 
 TARGET = ZMQtNetwork
 TEMPLATE = lib
@@ -35,7 +36,7 @@ HEADERS +=\
 
 OTHER_FILES +=
 
-unix|win32: LIBS += -lzmq
+unix: LIBS += -lzmq
 
 CONFIG(debug, debug|release) {
   OUTPUT_DIR = $$PWD/../output/debug
@@ -60,4 +61,12 @@ RCC_DIR = $$OUTPUT_DIR/build/rcc/$$TARGET
 unix:{
   target.path = $$OUTPUT_DIR/bin
   INSTALLS += target
+}
+
+win32:CONFIG(release, debug|release): LIBS += C:/Developer/ZMQ/lib/libzmq.lib
+else:win32:CONFIG(debug, debug|release): LIBS += C:/Developer/ZMQ/lib/libzmqd.lib
+
+win32 {
+INCLUDEPATH += C:/Developer/ZMQ/include
+DEPENDPATH += C:/Developer/ZMQ/include
 }
