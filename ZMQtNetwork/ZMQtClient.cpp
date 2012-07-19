@@ -13,21 +13,21 @@ namespace ZMQtNetwork
     QStringList getIPList()
     {
         QStringList _IPList;
-        QList<QNetworkInterface> _interfaceList = QNetworkInterface::allInterfaces(); 
+        QList<QNetworkInterface> _interfaceList = QNetworkInterface::allInterfaces();
         for (int i=0; i<_interfaceList.size(); i++)
         {
             QNetworkInterface _interface = _interfaceList.value(i);
             if ( (_interface.flags() & QNetworkInterface::IsUp) &&
-                !(_interface.flags() & QNetworkInterface::IsLoopBack)
-                )
+                 !(_interface.flags() & QNetworkInterface::IsLoopBack)
+                 )
             {
                 QList<QNetworkAddressEntry> _addressEntryList = _interface.addressEntries();
                 for(int j=0; j<_addressEntryList.size(); j++)
                 {
                     QHostAddress _address = _addressEntryList.value(j).ip();
                     if ( (_address.protocol() == QAbstractSocket::IPv4Protocol) &&
-                        (_address != QHostAddress::LocalHost) &&
-                        (_address != QHostAddress::Broadcast) )
+                         (_address != QHostAddress::LocalHost) &&
+                         (_address != QHostAddress::Broadcast) )
                     {
                         _IPList << _address.toString();
                     }
@@ -39,7 +39,7 @@ namespace ZMQtNetwork
     }
 
     ZMQtClient::ZMQtClient(const QString &UID, int io_threads, QObject *parent)
-        : QObject(parent) 
+        : QObject(parent)
     {
         if (m_pClientList->keys().contains(UID))
         {
@@ -55,10 +55,10 @@ namespace ZMQtNetwork
         }
 
         QObject::connect(m_pZMQtClient, SIGNAL(replyReceived(const QString &, const QByteArray &)),
-            this, SIGNAL(replyReceived(const QString &, const QByteArray &)), Qt::QueuedConnection);
+                         this, SIGNAL(replyReceived(const QString &, const QByteArray &)), Qt::QueuedConnection);
 
         QObject::connect(m_pZMQtSubcriber, SIGNAL(dataReceived(const QString &, const QByteArray &)),
-            this, SIGNAL(replyReceived(const QString &, const QByteArray &)), Qt::QueuedConnection);
+                         this, SIGNAL(replyReceived(const QString &, const QByteArray &)), Qt::QueuedConnection);
     }
 
     QString ZMQtClient::UID()

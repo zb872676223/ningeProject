@@ -37,8 +37,8 @@ namespace ZMQtNetwork
 
     void ZMQtServerWorker::run()
     {
-        connect(this, SIGNAL(requestSend(const QString &, const QByteArray &)), 
-            this, SLOT(sendSlot(const QString &, const QByteArray &)), Qt::QueuedConnection);
+        connect(this, SIGNAL(requestSend(const QString &, const QByteArray &)),
+                this, SLOT(sendSlot(const QString &, const QByteArray &)), Qt::QueuedConnection);
 
         exec();
     }
@@ -96,7 +96,7 @@ namespace ZMQtNetwork
         zmq_msg_close(&_msg);
 
         // 开始获取消息内容
-        QByteArray _data; 
+        QByteArray _data;
         long long _more = 0;
         size_t _more_size = sizeof(_more);
         do
@@ -120,8 +120,8 @@ namespace ZMQtNetwork
         killTimer(m_iTimerID);
         terminate();
 
-        disconnect(this, SIGNAL(requestSend(const QString &, const QByteArray &)), 
-            this, SLOT(sendSlot(const QString &, const QByteArray &)));
+        disconnect(this, SIGNAL(requestSend(const QString &, const QByteArray &)),
+                   this, SLOT(sendSlot(const QString &, const QByteArray &)));
     }
 
     void ZMQtServerWorker::send( const QString &UID, const QByteArray &data )

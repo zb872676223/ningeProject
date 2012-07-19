@@ -75,7 +75,7 @@ namespace ZMQtNetwork
             qCritical() << "context did not created!";
         }
 
-        return INT_MIN;      
+        return INT_MIN;
     }
 
     void ZMQtClient_P::close()
@@ -100,8 +100,8 @@ namespace ZMQtNetwork
             m_pSocket = NULL;
         }
 
-        QObject::disconnect(this, SIGNAL(requestSend(const QByteArray &)), 
-            this, SLOT(sendSlot(const QByteArray &)));
+        QObject::disconnect(this, SIGNAL(requestSend(const QByteArray &)),
+                            this, SLOT(sendSlot(const QByteArray &)));
     }
 
     void ZMQtClient_P::request( const QString &type, const QByteArray &data )
@@ -118,13 +118,13 @@ namespace ZMQtNetwork
 
     void ZMQtClient_P::send( const QByteArray &data )
     {
-        emit requestSend(data); 
+        emit requestSend(data);
     }
 
     void ZMQtClient_P::run()
     {
-        QObject::connect(this, SIGNAL(requestSend(const QByteArray &)), 
-            this, SLOT(sendSlot(const QByteArray &)), Qt::QueuedConnection);
+        QObject::connect(this, SIGNAL(requestSend(const QByteArray &)),
+                         this, SLOT(sendSlot(const QByteArray &)), Qt::QueuedConnection);
 
         exec();
     }
@@ -133,7 +133,7 @@ namespace ZMQtNetwork
     {
         if (m_pSocket)
         {
-            QByteArray _data; 
+            QByteArray _data;
             int _rc = 0;
             long long _more = 0;
             size_t _more_size = sizeof(_more);

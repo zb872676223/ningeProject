@@ -80,8 +80,8 @@ namespace ZMQtNetwork
 
                     connect(this, SIGNAL(stopWorker()), m_pWorker, SLOT(stop()), Qt::QueuedConnection);
 
-                    connect(m_pWorker, SIGNAL(dataReceived(const QString &, const QByteArray &)), 
-                        this, SLOT(requestDataReceived(const QString &, const QByteArray &)), Qt::QueuedConnection);
+                    connect(m_pWorker, SIGNAL(dataReceived(const QString &, const QByteArray &)),
+                            this, SLOT(requestDataReceived(const QString &, const QByteArray &)), Qt::QueuedConnection);
 
                     // 后端也绑定完成, 于是开始服务器主线程
                     start();
@@ -157,8 +157,8 @@ namespace ZMQtNetwork
 
         disconnect(this, SIGNAL(stopWorker()), m_pWorker, SLOT(stop()));
 
-        disconnect(m_pWorker, SIGNAL(dataReceived(const QString &, const QByteArray &)), 
-            this, SLOT(requestDataReceived(const QString &, const QByteArray &)));
+        disconnect(m_pWorker, SIGNAL(dataReceived(const QString &, const QByteArray &)),
+                   this, SLOT(requestDataReceived(const QString &, const QByteArray &)));
     }
 
     void ZMQtServer_P::run()

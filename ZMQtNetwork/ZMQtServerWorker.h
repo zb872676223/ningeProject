@@ -17,16 +17,16 @@ namespace ZMQtNetwork
         ZMQtServerWorker(ZMQtServer_P *server, QObject *parent=0);
         ~ZMQtServerWorker();
 
-        public slots:
-            void stop();
-            void send(const QString &UID, const QByteArray &data);
+    public slots:
+        void stop();
+        void send(const QString &UID, const QByteArray &data);
 
-signals:    
-            void requestSend(const QString &UID, const QByteArray &data);
-            void dataReceived(const QString &UID, const QByteArray &data);
+    signals:
+        void requestSend(const QString &UID, const QByteArray &data);
+        void dataReceived(const QString &UID, const QByteArray &data);
 
-            private slots:
-                void sendSlot(const QString &UID, const QByteArray &data);
+    private slots:
+        void sendSlot(const QString &UID, const QByteArray &data);
 
     protected:
         void run();

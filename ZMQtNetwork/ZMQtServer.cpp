@@ -7,7 +7,7 @@
 namespace ZMQtNetwork
 {    
     /*****************************************************
-    * 
+    *
     * ZMQtServer类
     *
     *****************************************************/
@@ -18,7 +18,7 @@ namespace ZMQtNetwork
         , m_pZMQtPublisher(new ZMQtPublisher_P(io_threads))
     {
         QObject::connect(m_pZMQtServer, SIGNAL(requestReceived(const QString &, const QString &, const QByteArray &)),
-            this, SIGNAL(requestReceived(const QString &, const QString &, const QByteArray &)), Qt::QueuedConnection);
+                         this, SIGNAL(requestReceived(const QString &, const QString &, const QByteArray &)), Qt::QueuedConnection);
     }
 
     ZMQtServer::~ZMQtServer()

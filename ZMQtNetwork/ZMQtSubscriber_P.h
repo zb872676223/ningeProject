@@ -42,7 +42,7 @@ namespace ZMQtNetwork
         */
         virtual void removeAllTypeFliter();
 
-signals:
+    signals:
         void dataReceived(const QString &type, const QByteArray &data);
 
     protected:

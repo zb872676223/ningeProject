@@ -43,7 +43,7 @@ namespace ZMQtNetwork
                     qCritical() << "socket bind error:" << zmq_strerror(zmq_errno());
                     qCritical() << "with setting:" << _connectString;
                 }
-            
+
                 //开始服务器主线程
                 start();
 
@@ -87,14 +87,14 @@ namespace ZMQtNetwork
             m_pSocket = NULL;
         }
 
-        disconnect(this, SIGNAL(pub(const QString &, const QByteArray &)), 
-            this, SLOT(pubSlot(const QString &, const QByteArray &)));
+        disconnect(this, SIGNAL(pub(const QString &, const QByteArray &)),
+                   this, SLOT(pubSlot(const QString &, const QByteArray &)));
     }
 
     void ZMQtPublisher_P::run()
     {
-        connect(this, SIGNAL(pub(const QString &, const QByteArray &)), 
-            this, SLOT(pubSlot(const QString &, const QByteArray &)), Qt::QueuedConnection);
+        connect(this, SIGNAL(pub(const QString &, const QByteArray &)),
+                this, SLOT(pubSlot(const QString &, const QByteArray &)), Qt::QueuedConnection);
         exec();
     }
 
