@@ -326,7 +326,7 @@ void Player::totalTimeChanged(qint64 newTotalTime)
     tick(0);
 }
 
-void Player::onPlayerCustomContextMenuRequested(const QPoint &pos)
+void Player::onPlayerCustomContextMenuRequested(const QPoint &/*pos*/)
 {
     m_menu.popup(QCursor::pos());
 }
