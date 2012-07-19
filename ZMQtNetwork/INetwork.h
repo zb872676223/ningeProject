@@ -11,7 +11,7 @@ namespace ZMQtNetwork
     class INetworkClient
     {
 
-    public:      
+    public:
         /*
         * 要使用这个接口必须指定自己的UID信息, 可以任意, 但必须具有唯一性
         * 用于向服务器唯一标示自己

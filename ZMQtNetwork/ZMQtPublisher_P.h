@@ -33,7 +33,7 @@ namespace ZMQtNetwork
         */
         virtual void close();
 
-signals:
+    signals:
         void pub(const QString &type, const QByteArray &data);
 
     private slots:

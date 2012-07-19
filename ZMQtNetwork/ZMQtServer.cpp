@@ -56,4 +56,9 @@ namespace ZMQtNetwork
         m_pZMQtPublisher->publish(type, data);
     }
 
+    void ZMQtServer::closePublish()
+    {
+        m_pZMQtPublisher->close();
+    }
+
 }

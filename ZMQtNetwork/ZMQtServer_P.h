@@ -49,15 +49,15 @@ namespace ZMQtNetwork
         */
         void send(const QString &UID, const QByteArray &data);
 
-signals:
+    signals:
         void requestReceived(const QString &UID, const QString &type, const QByteArray &data);
         void stopWorker();
 
     protected:
         void run();
 
-        private slots:
-            void requestDataReceived(const QString &UID, const QByteArray &data);
+    private slots:
+        void requestDataReceived(const QString &UID, const QByteArray &data);
     private:
         ZMQtContext m_context;
 

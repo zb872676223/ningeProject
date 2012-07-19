@@ -10,9 +10,9 @@
 
 namespace ZMQtNetwork
 {
-    class ZMQtClient_P 
-        : public QThread
-        , public INetworkClient
+    class ZMQtClient_P
+            : public QThread
+            , public INetworkClient
     {
         Q_OBJECT
 
@@ -49,7 +49,7 @@ namespace ZMQtNetwork
          */
         void send(const QByteArray &data);
 
-signals:
+    signals:
         void replyReceived(const QString &type, const QByteArray &data);
         void requestSend(const QByteArray &data);
 
@@ -57,9 +57,9 @@ signals:
         void run();
         void timerEvent(QTimerEvent *event);
 
-        private slots:
-            void sendSlot(const QByteArray &data);
-            void replyDataReceived(const QByteArray &data);
+    private slots:
+        void sendSlot(const QByteArray &data);
+        void replyDataReceived(const QByteArray &data);
 
     private:
         ZMQtContext m_context;

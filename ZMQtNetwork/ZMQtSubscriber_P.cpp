@@ -59,7 +59,7 @@ namespace ZMQtNetwork
             qCritical() << "context did not created!";
         }
 
-        return INT_MIN;  
+        return INT_MIN;
     }
 
     void ZMQtSubscriber_P::close()
@@ -145,7 +145,7 @@ namespace ZMQtNetwork
             QString _type = QString::fromUtf8((const char *)zmq_msg_data(&_msg), zmq_msg_size(&_msg));
 
             // 开始获取消息内容
-            QByteArray _data; 
+            QByteArray _data;
             long long _more = 0;
             size_t _more_size = sizeof(_more);
             do

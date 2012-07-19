@@ -10,7 +10,7 @@
 
 namespace ZMQtNetwork
 {
-    class ZMQtClient_P; 
+    class ZMQtClient_P;
     class ZMQtSubscriber_P;
 
     /*
@@ -25,10 +25,10 @@ namespace ZMQtNetwork
     {
         Q_OBJECT
 
-    public:   
+    public:
         /*
-        * 要使用这个模块必须指定自己的UID信息, 可以任意, 但必须具有唯一性, 
-        * 若为"", 则会使用以下命名方式 XXXX@XXX.XXX.XXX.XXX, 
+        * 要使用这个模块必须指定自己的UID信息, 可以任意, 但必须具有唯一性,
+        * 若为"", 则会使用以下命名方式 XXXX@XXX.XXX.XXX.XXX,
         * 其中@字符前为随机的16进制数字, @字符后面为机器的第一个可用IP
         */
         ZMQtClient(const QString &UID, int io_threads=1, QObject *parent=0);
@@ -55,11 +55,11 @@ namespace ZMQtNetwork
 
         /*
         * 设置客户端UID
-        * !注意! 这是设置下一次连接服务器时将使用的UID! 
+        * !注意! 这是设置下一次连接服务器时将使用的UID!
         * 也就是说如果已经连接到服务器, 此函数无法改变客户端的UID!
         */
         void setUID(const QString &UID);
-        
+
         /*
         * 获取客户端UID
         */
@@ -77,7 +77,7 @@ namespace ZMQtNetwork
         * 结束接受者连接
         */
         void closeSubScriber();
-        
+
         /*
         * 增加客户端接收消息过滤器
         */
@@ -94,7 +94,7 @@ namespace ZMQtNetwork
     public:
         bool isConnected();
 
-signals:
+    signals:
         void replyReceived(const QString &type, const QByteArray &data);
 
     private:

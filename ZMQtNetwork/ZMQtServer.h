@@ -34,14 +34,14 @@ namespace ZMQtNetwork
         void reply(const QString &UID, const QString &type, const QByteArray &data);
 
         /*
-        * 结束绑定
+         * 结束绑定
         */
         void close();
 
         /*
-        * 返回全部的客户端UID列表(客户端不一定都可用)
-        * TODO: 将不可用的客户端的UID清除
-        */
+         * 返回全部的客户端UID列表(客户端不一定都可用)
+         * TODO: 将不可用的客户端的UID清除
+         */
         const QList<QString> clientUIDList();
 
         /*
@@ -49,6 +49,7 @@ namespace ZMQtNetwork
         */
         void send(const QString &UID, const QByteArray &data);
 
+    public:
         /*
         * 绑定广播端口
         */
@@ -59,8 +60,12 @@ namespace ZMQtNetwork
         */
         void publish(const QString &type, const QByteArray &data);
 
+        /*
+        *
+        */
+        void closePublish();
 
-signals:
+    signals:
         void requestReceived(const QString &UID, const QString &type, const QByteArray &data);
 
     private:
