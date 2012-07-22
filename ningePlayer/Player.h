@@ -81,6 +81,8 @@ private slots:
 
   void on_action_Show_Control_triggered(bool checked);
 
+  void onResize();
+
 private:
   void play(const QString &url);
 

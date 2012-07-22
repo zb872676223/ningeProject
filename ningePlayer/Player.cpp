@@ -70,6 +70,8 @@ Player::Player(NingePlayer *player, QWidget *parent) :
     m_menu.setTitle(tr("&Player"));
     m_menu.addAction(tr("&Open File..."), this, SLOT(openFile()));
     m_menu.addSeparator();
+    m_menu.addAction(tr("&Resize"), this, SLOT(onResize()));
+    m_menu.addSeparator();
     m_menu.addAction(ui->action_Show_Control);
 
     ui->controlWidget->setVisible(false);
@@ -256,11 +258,15 @@ void Player::playerStateChanged(Phonon::State newState, Phonon::State oldState)
     else if (newState == Phonon::StoppedState)
     {
         ui->state->setText(tr("Stop"));
+        setWindowFlags(windowFlags() & (~Qt::WindowStaysOnTopHint));
+        show();
     }
     else if (newState == Phonon::PlayingState)
     {
         ui->state->setText(tr("Playing..."));
         ui->play->setIcon(m_iconPause);
+        setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+        show();
     }
     else if (newState == Phonon::BufferingState)
     {
@@ -269,6 +275,8 @@ void Player::playerStateChanged(Phonon::State newState, Phonon::State oldState)
     else if (newState == Phonon::PausedState)
     {
         ui->state->setText(tr("Pause"));
+        setWindowFlags(windowFlags() & (~Qt::WindowStaysOnTopHint));
+        show();
     }
 
     // 多状态/错误判断
@@ -326,7 +334,7 @@ void Player::totalTimeChanged(qint64 newTotalTime)
     tick(0);
 }
 
-void Player::onPlayerCustomContextMenuRequested(const QPoint &pos)
+void Player::onPlayerCustomContextMenuRequested(const QPoint &/*pos*/)
 {
     m_menu.popup(QCursor::pos());
 }
@@ -334,4 +342,9 @@ void Player::onPlayerCustomContextMenuRequested(const QPoint &pos)
 void Player::on_action_Show_Control_triggered(bool checked)
 {
     ui->controlWidget->setHidden(!checked);
+}
+
+void Player::onResize()
+{
+    resize(sizeHint());
 }
