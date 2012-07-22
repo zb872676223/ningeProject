@@ -6,7 +6,8 @@ SUBDIRS += \
     ningePlayer \
     ningeMain \
     ningeGal \
-    ningeConsole
+    ningeConsole \
+    ZMQtNetwork
 
 
 

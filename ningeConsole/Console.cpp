@@ -45,6 +45,7 @@ Console::Console(NingeConsole *console, QWidget *parent) :
 Console::~Console()
 {
     delete ui;
+    delete m_pSystemTrayIcon;
 }
 
 void Console::init()
@@ -89,6 +90,7 @@ QVariant Console::exec(const QString &/*command*/, const QList<QVariant> &/*argu
 
 void Console::aboutToQuit()
 {
+    m_pSystemTrayIcon->hide();
 }
 
 void Console::on_post_clicked()
