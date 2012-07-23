@@ -122,7 +122,9 @@ void Console::activated(QSystemTrayIcon::ActivationReason reason)
     case QSystemTrayIcon::Trigger:
     case QSystemTrayIcon::DoubleClick:
     case QSystemTrayIcon::MiddleClick:
-        show();
+        showNormal();
+        raise();
+        activateWindow();
         break;
     default:
         ;
